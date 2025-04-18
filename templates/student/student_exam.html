@@ -1,0 +1,302 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  :root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #9d00ff;
+    --dark-bg: #0a0b1a;
+    --card-bg: rgba(16, 18, 34, 0.95);
+  }
+
+  .exam-container {
+    padding: 2rem;
+    min-height: 100vh;
+    background: var(--dark-bg);
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(157, 0, 255, 0.05) 0%, transparent 50%);
+  }
+
+  .section-title {
+    color: #fff;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+  }
+
+  .exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .exam-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .exam-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.03), transparent);
+    transform: translateY(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .exam-card:hover::before {
+    transform: translateY(100%);
+  }
+
+  .exam-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 243, 255, 0.1);
+    border-color: rgba(0, 243, 255, 0.3);
+  }
+
+  .exam-name {
+    color: var(--neon-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .exam-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-item {
+    background: rgba(0, 243, 255, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+  }
+
+  .stat-item i {
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-item span {
+    color: #fff;
+    font-size: 0.9rem;
+    display: block;
+  }
+
+  .exam-status {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
+  .status-completed {
+    background: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
+    border: 1px solid rgba(0, 255, 0, 0.3);
+  }
+
+  .status-failed {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+  }
+
+  .status-pending {
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+  }
+
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 10px;
+    color: var(--neon-blue);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .action-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 243, 255, 0.1);
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+  }
+
+  .action-button:hover::before {
+    transform: translate(-50%, -50%) scale(2);
+  }
+
+  .action-button:hover {
+    background: rgba(0, 243, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+  }
+
+  .score-display {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .score-passed {
+    color: #00ff00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+
+  .score-failed {
+    color: #ff0000;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .empty-state i {
+    font-size: 4rem;
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 0.5; }
+  }
+
+  .empty-state i {
+    animation: pulse 2s infinite;
+  }
+
+  @media (max-width: 768px) {
+    .exam-container {
+      padding: 1rem;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .exam-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="exam-container">
+  <h2 class="section-title">Available Exams</h2>
+  
+  <div class="exam-grid">
+    {% for course in courses %}
+    <div class="exam-card">
+      <div class="exam-name">{{ course.course_name }}</div>
+      
+      <div class="exam-stats">
+        <div class="stat-item">
+          <i class="fas fa-question-circle"></i>
+          <span>{{ course.question_number }} Questions</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-star"></i>
+          <span>{{ course.total_marks }} Marks</span>
+        </div>
+      </div>
+      
+      {% if course.completed %}
+        {% if course.passed %}
+          <div class="exam-status status-completed">
+            <i class="fas fa-check-circle"></i> Completed
+          </div>
+          <div class="score-display score-passed">
+            Score: {{ course.score }}/{{ course.total_marks }}
+          </div>
+        {% else %}
+          <div class="exam-status status-failed">
+            <i class="fas fa-times-circle"></i> Failed
+          </div>
+          <div class="score-display score-failed">
+            Score: {{ course.score }}/{{ course.total_marks }}
+          </div>
+        {% endif %}
+        
+        <a href="{% url 'check-marks' course.id %}" class="action-button">
+          <i class="fas fa-chart-bar"></i> View Details
+        </a>
+      {% else %}
+        <div class="exam-status status-pending">
+          <i class="fas fa-clock"></i> Not Attempted
+        </div>
+        <a href="{% url 'take-exam' course.id %}" class="action-button">
+          <i class="fas fa-play"></i> Start Exam
+        </a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <p>No exams available at the moment</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

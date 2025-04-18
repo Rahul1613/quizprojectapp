@@ -1,0 +1,104 @@
+{% extends 'teacher/teacherbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <style media="screen">
+        body {
+            background: linear-gradient(to right, #ff758c, #ff7eb3); /* Gradient background */
+            color: #333; /* Default text color */
+            font-family: 'Arial', sans-serif; /* Clean font */
+        }
+
+        .panel {
+            margin-top: 50px; /* Spacing above the panel */
+            border-radius: 15px; /* Rounded corners for the panel */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+        .panel-heading {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white; /* White text for the heading */
+            border-top-left-radius: 15px; /* Rounded corners for the top */
+            border-top-right-radius: 15px; /* Rounded corners for the top */
+            padding: 15px; /* Padding for better spacing */
+        }
+
+        .panel-title {
+            margin: 0; /* Remove margin for panel title */
+        }
+
+        table {
+            margin-top: 20px; /* Spacing above the table */
+        }
+
+        th {
+            background-color: #f8f9fa; /* Light gray for header background */
+            color: #333; /* Dark text color for header */
+        }
+
+        th, td {
+            text-align: center; /* Center-align text */
+        }
+
+        .btn-primary {
+            transition: background-color 0.3s, transform 0.2s; /* Smooth transition for button */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.1); /* Scale up effect on hover */
+        }
+
+        .glyphicon-trash {
+            color: white; /* White icon color */
+        }
+
+        .glyphicon-trash:hover {
+            color: #ffcc00; /* Yellow on hover */
+        }
+
+        h6 {
+            text-align: center; /* Center-align heading */
+            font-weight: bold; /* Bold font */
+        }
+    </style>
+</head>
+
+<br><br>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Questions</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Marks</th>
+                    <th>Delete Question</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in questions %}
+                <tr>
+                    <td>{{ c.question }}</td>
+                    <td>{{ c.marks }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="{% url 'remove-question' c.id %}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}

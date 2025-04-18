@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Student Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #b92b27, #1565c0); /* Gradient background */
+            height: 100vh; /* Full height */
+            display: flex; /* Flexbox for centering */
+            flex-direction: column; /* Ensures footer is below content */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            color: #fff; /* Default text color */
+        }
+
+        /* Center the container within the body */
+        .container {
+            flex-grow: 1; /* Take up available space */
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            width: 100%; /* Full width */
+        }
+
+        /* Box for login form */
+        .box {
+            width: 400px; /* Adjusted width */
+            padding: 40px; /* Inner spacing */
+            background: #1e1e1e; /* Darker background for contrast */
+            text-align: center; /* Center text */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow effect */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .box:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7); /* Increased shadow on hover */
+        }
+
+        .box h1 {
+            color: #fff; /* White color for heading */
+            text-transform: uppercase; /* Uppercase heading */
+            font-weight: 700; /* Bolder text */
+            margin-bottom: 20px; /* Space below heading */
+            letter-spacing: 1.5px; /* Space between letters */
+        }
+
+        .box p {
+            color: #ccc; /* Lighter text color */
+            margin-bottom: 20px; /* Space below paragraph */
+            font-size: 14px; /* Standard text size */
+        }
+
+        .box input[type="text"],
+        .box input[type="password"] {
+            border: 2px solid #3498db; /* Border color */
+            border-radius: 24px; /* Rounded corners */
+            padding: 10px; /* Padding for input fields */
+            width: 100%; /* Full width inputs */
+            margin: 10px 0; /* Space above and below */
+            outline: none; /* Remove outline */
+            color: #fff; /* White text */
+            background: transparent; /* Transparent background */
+            transition: border-color 0.25s, background-color 0.25s; /* Smooth transition */
+            font-size: 16px; /* Font size for inputs */
+        }
+
+        .box input[type="text"]:focus,
+        .box input[type="password"]:focus {
+            border-color: #2ecc71; /* Change border color on focus */
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on focus */
+        }
+
+        .box input[type="submit"] {
+            border: 2px solid #2ecc71; /* Border color */
+            padding: 14px 20px; /* Padding for button */
+            outline: none; /* Remove outline */
+            color: #fff; /* White text */
+            background: none; /* Transparent background */
+            border-radius: 24px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background 0.3s, transform 0.3s; /* Smooth transition */
+            margin-top: 20px; /* Space above button */
+            width: 100%; /* Full width button */
+            font-weight: bold; /* Bold button text */
+            font-size: 16px; /* Button text size */
+        }
+
+        .box input[type="submit"]:hover {
+            background: #2ecc71; /* Background color on hover */
+            transform: translateY(-2px); /* Lift effect on hover */
+        }
+
+        /* Footer styling */
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%; /* Full width footer */
+            background-color: #1e1e1e; /* Dark background for footer */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 480px) {
+            .box {
+                width: 90%; /* Full width on small screens */
+                padding: 30px; /* Less padding */
+            }
+
+            .box h1 {
+                font-size: 24px; /* Smaller heading on small screens */
+            }
+
+            .box p {
+                font-size: 14px; /* Smaller text on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "quiz/navbar.html" %}
+
+    <!-- Centered Login Box -->
+    <div class="container">
+        <div class="box">
+            <form method="post">
+                {% csrf_token %}
+                <h1>Student Login</h1>
+                <p class="text-muted">Please enter your login and password!</p>
+
+                {% render_field form.username class="form-control" placeholder="Username" %}
+                {% render_field form.password class="form-control" placeholder="Password" %}
+
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer at the bottom -->
+    <footer>
+        {% include "quiz/footer.html" %}
+        <p>© 2024 Your Company. All rights reserved.</p>
+    </footer>
+</body>
+</html>

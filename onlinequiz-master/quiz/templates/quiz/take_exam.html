@@ -1,0 +1,90 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Take Exam - {{ course.course_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="futuristic-card p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-white">{{ course.course_name }}</h1>
+            <div class="flex items-center space-x-4">
+                <div class="text-lg">
+                    Time Remaining: <span id="timer" class="font-bold text-primary-color"></span>
+                </div>
+                <div class="text-lg">
+                    Total Marks: <span class="font-bold text-primary-color">{{ total_marks }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <form id="examForm" method="post" class="space-y-8">
+            {% csrf_token %}
+            {% for question in questions %}
+            <div class="futuristic-card p-6 mb-6 glow-effect">
+                <div class="mb-4">
+                    <h3 class="text-xl font-semibold mb-2">Question {{ forloop.counter }}</h3>
+                    <p class="text-lg">{{ question.question }}</p>
+                    <div class="text-sm text-gray-400">Marks: {{ question.marks }}</div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for option_value, option_text in question.get_options %}
+                    <label class="flex items-center p-4 rounded-lg border border-gray-700 hover:border-primary-color transition-all cursor-pointer">
+                        <input type="radio" name="{{ question.id }}" value="{{ option_value }}" 
+                               class="form-radio h-4 w-4 text-primary-color" required>
+                        <span class="ml-3">{{ option_text }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="flex justify-end mt-8">
+                <button type="submit" class="btn-primary text-lg px-8 py-3">
+                    Submit Exam
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let timeLimit = {{ time_limit_minutes }} * 60; // Convert to seconds
+    const timerDisplay = document.getElementById('timer');
+    const examForm = document.getElementById('examForm');
+    
+    function updateTimer() {
+        const minutes = Math.floor(timeLimit / 60);
+        const seconds = timeLimit % 60;
+        timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLimit <= 0) {
+            examForm.submit();
+        } else {
+            timeLimit--;
+            setTimeout(updateTimer, 1000);
+        }
+    }
+    
+    updateTimer();
+    
+    // Prevent form resubmission on page refresh
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+    
+    // Warn before leaving page
+    window.onbeforeunload = function() {
+        return "Are you sure you want to leave? Your progress will be lost.";
+    };
+    
+    // Remove warning when submitting form
+    examForm.addEventListener('submit', function() {
+        window.onbeforeunload = null;
+    });
+});
+</script>
+{% endblock %}

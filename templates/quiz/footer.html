@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /*---------------------------------------
+        Footer section - Enhanced
+        -----------------------------------------*/
+        footer {
+            background: linear-gradient(135deg, #1c1c1c, #484848); /* Smooth gradient background */
+            color: #ffffff;
+            padding: 60px 0; /* Ample padding for a premium feel */
+            margin: 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow for elevated feel */
+            position: relative; /* Allow positioning of decorative elements */
+            overflow: hidden;
+        }
+
+        footer::before,
+        footer::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 80%);
+            z-index: 0;
+        }
+
+        footer::after {
+            top: unset;
+            bottom: -50px;
+            transform: rotate(180deg);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .fa {
+            font-size: 30px; /* Larger icon size */
+            width: 70px;
+            height: 70px;
+            line-height: 70px; /* Center icon vertically */
+            margin: 0 15px; /* Spacing between icons */
+            border-radius: 50%; /* Circular icons */
+            display: inline-block;
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.4s ease; /* Smooth transitions */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow */
+        }
+
+        .fa:hover {
+            transform: scale(1.2); /* Scale up on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+            background: linear-gradient(135deg, #4c4c4c, #ff6b6b); /* Gradient background on hover */
+            color: #ffffff; /* White icon color on hover */
+        }
+
+        /* Icon-specific background colors */
+        .fa-facebook {
+            background: #3b5998;
+            color: white;
+        }
+
+        .fa-twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .fa-linkedin {
+            background: #0077b5;
+            color: white;
+        }
+
+        .fa-instagram {
+            background: #e1306c;
+            color: white;
+        }
+
+        p {
+            text-align: center;
+            font-size: 1.2rem; /* Larger font size */
+            font-weight: 600; /* Bolder text for emphasis */
+            margin: 0;
+        }
+
+        .footer-copyright {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #ccc; /* Light gray for classy feel */
+            text-align: center;
+        }
+
+        /* Hover animation for text */
+        p:hover {
+            color: #ff6b6b; /* Subtle color change on hover */
+            transition: color 0.3s ease;
+        }
+
+        /* Floating effect for icons */
+        .fa {
+            animation: float 3s infinite ease-in-out; /* Floating animation */
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .fa {
+                font-size: 24px; /* Smaller icon size for mobile */
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                margin: 10px 5px;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons">
+                <a href="https://www.instagram.com/brains.git?igsh=dGZ4eDJvZDF2dWVx" class="fa fa-facebook"></a>
+                <a href="https://www.instagram.com/brains.git?igsh=dGZ4eDJvZDF2dWVx" class="fa fa-twitter"></a>
+                <a href="https://www.instagram.com/brains.git?igsh=dGZ4eDJvZDF2dWVx" class="fa fa-linkedin"></a>
+                <a href="https://www.instagram.com/brains.git?igsh=dGZ4eDJvZDF2dWVx" class="fa fa-instagram"></a>
+            </div>
+            <div class="footer-copyright">
+                <p>Gharda Institute of Technology<br>
+                    &copy; 2024 Aptitude Test</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

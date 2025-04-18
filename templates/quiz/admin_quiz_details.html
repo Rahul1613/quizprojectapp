@@ -1,0 +1,281 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+        .container {
+            padding: 30px 15px;
+        }
+
+        /* Tab Styles */
+        .nav-tabs {
+            border: none;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #495057;
+            transform: translateY(-1px);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(45deg, #6c5ce7, #a367dc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108,92,231,0.3);
+        }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #6c5ce7, #a367dc);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+            border-radius: 15px 15px 0 0 !important;
+        }
+
+        .card-header h4 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header h4 i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* Table Styles */
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            border-top: none;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+            color: #495057;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .table td {
+            padding: 15px;
+            vertical-align: middle;
+            color: #6c757d;
+            border-color: #f1f3f5;
+        }
+
+        /* Stats Badges */
+        .badge {
+            padding: 8px 12px;
+            font-weight: 500;
+            border-radius: 50px;
+        }
+
+        .badge-primary {
+            background: rgba(108,92,231,0.1);
+            color: #6c5ce7;
+        }
+
+        .badge-success {
+            background: rgba(40,167,69,0.1);
+            color: #28a745;
+        }
+
+        .badge-warning {
+            background: rgba(255,193,7,0.1);
+            color: #ffc107;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs .nav-link {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .card-header {
+                padding: 15px 20px;
+            }
+
+            .card-body {
+                padding: 15px;
+            }
+
+            .table thead th,
+            .table td {
+                padding: 12px 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-pane {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e9ecef;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <ul class="nav nav-tabs" id="quizDetails" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="teacher-tab" data-toggle="tab" href="#teacher" role="tab">
+                <i class="fas fa-chalkboard-teacher"></i> Teacher Details
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="student-tab" data-toggle="tab" href="#student" role="tab">
+                <i class="fas fa-user-graduate"></i> Student Details
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Teacher Details Tab -->
+        <div class="tab-pane fade show active" id="teacher" role="tabpanel">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-chart-line"></i> Teacher Quiz Statistics</h4>
+                </div>
+                <div class="card-body">
+                    {% if teacher_stats %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-user"></i> Teacher Name</th>
+                                    <th><i class="fas fa-tasks"></i> Total Tests</th>
+                                    <th><i class="fas fa-clock"></i> Active Tests</th>
+                                    <th><i class="fas fa-check-circle"></i> Completed Tests</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teacher_stats %}
+                                <tr>
+                                    <td>{{ teacher.name }}</td>
+                                    <td><span class="badge badge-primary">{{ teacher.total_tests }}</span></td>
+                                    <td><span class="badge badge-warning">{{ teacher.active_tests }}</span></td>
+                                    <td><span class="badge badge-success">{{ teacher.completed_tests }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>No teacher statistics available</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Details Tab -->
+        <div class="tab-pane fade" id="student" role="tabpanel">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-graduation-cap"></i> Student Quiz Performance</h4>
+                </div>
+                <div class="card-body">
+                    {% if student_stats %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-user"></i> Student Name</th>
+                                    <th><i class="fas fa-pen"></i> Total Exams</th>
+                                    <th><i class="fas fa-chart-bar"></i> Average Score</th>
+                                    <th><i class="fas fa-trophy"></i> Highest Score</th>
+                                    <th><i class="fas fa-calendar-alt"></i> Last Exam Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in student_stats %}
+                                <tr>
+                                    <td>{{ student.name }}</td>
+                                    <td><span class="badge badge-primary">{{ student.total_exams }}</span></td>
+                                    <td>
+                                        <span class="badge {% if student.avg_score >= 70 %}badge-success{% elif student.avg_score >= 40 %}badge-warning{% else %}badge-danger{% endif %}">
+                                            {{ student.avg_score }}%
+                                        </span>
+                                    </td>
+                                    <td><span class="badge badge-success">{{ student.highest_score }}%</span></td>
+                                    <td>{{ student.last_exam_date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-user-graduate"></i>
+                        <p>No student statistics available</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+{% endblock content %}

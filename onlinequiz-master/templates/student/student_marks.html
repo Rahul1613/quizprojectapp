@@ -1,0 +1,107 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style media="screen">
+        body {
+            background-color: #f4f4f4; /* Light background for better contrast */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        h6 {
+            text-align: center;
+            font-weight: bold; /* Bold heading */
+            color: #333; /* Darker color for better visibility */
+        }
+
+        .row {
+            margin: 50px 0; /* Reduced vertical margin */
+        }
+
+        .panel {
+            border-radius: 8px; /* Rounded corners for panel */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .panel-heading {
+            background-color: #04868f; /* Custom background color */
+            color: #ffffff; /* White text for contrast */
+            padding: 15px; /* Padding for heading */
+            border-top-left-radius: 8px; /* Round top corners */
+            border-top-right-radius: 8px; /* Round top corners */
+        }
+
+        .table {
+            background-color: #fff; /* White background for the table */
+            border-radius: 8px; /* Rounded corners for the table */
+            overflow: hidden; /* Prevent border radius issues */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for the table */
+        }
+
+        th, td {
+            text-align: center; /* Center align text */
+            padding: 15px; /* Padding for table cells */
+        }
+
+        th {
+            background-color: #f8f9fa; /* Light gray background for table headers */
+            color: #333; /* Dark text for contrast */
+            font-weight: bold; /* Bold text for headers */
+        }
+
+        tr:hover {
+            background-color: #e9ecef; /* Hover effect for rows */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Padding for button */
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker shade on hover */
+        }
+    </style>
+</head>
+
+<br><br>
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">View Marks</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr>
+                    <th>Exam Name</th>
+                    <th>View Marks</th>
+                </tr>
+            </thead>
+            {% for t in courses %}
+            <tr>
+                <td>{{ t.course_name }}</td>
+                <td>
+                    <a class="btn btn-danger btn-xs" href="{% url 'check-marks' t.id %}">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}

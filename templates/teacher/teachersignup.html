@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f7f9; /* Light background for the whole page */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 {
+            color: #e74c3c; /* Red color for the heading */
+            margin: 20px 0;
+        }
+
+        form {
+            margin: 50px auto;
+            max-width: 600px; /* Limit the form width */
+            background: white; /* White background for the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding: 30px; /* Inner spacing */
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap; /* Wrap to new line on smaller screens */
+            margin-bottom: 15px; /* Space between rows */
+        }
+
+        .form-group {
+            flex: 1; /* Allow groups to grow equally */
+            min-width: 250px; /* Minimum width for small screens */
+            margin-right: 10px; /* Right margin for spacing */
+        }
+
+        .form-group:last-child {
+            margin-right: 0; /* Remove margin for the last item */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px; /* Space between label and input */
+            font-weight: bold; /* Bold labels */
+            color: #333; /* Dark color for labels */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%; /* Full width inputs */
+            padding: 12px 15px; /* Inner spacing */
+            border: 1px solid #ddd; /* Border styling */
+            border-radius: 5px; /* Rounded corners for inputs */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+            transition: border-color 0.3s; /* Transition effect for border */
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="file"]:focus {
+            border-color: #19B3D3; /* Change border color on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        .btn-primary {
+            display: inline-block; /* Make button inline */
+            padding: 10px 20px; /* Button padding */
+            background-color: #19B3D3; /* Primary button color */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded button */
+            font-size: 16px; /* Font size */
+            cursor: pointer; /* Pointer on hover */
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        .btn-primary:hover {
+            background-color: #0B87A6; /* Darker color on hover */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            form {
+                margin: 20px; /* Reduce margin on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "quiz/navbar.html" %}
+
+    <br><br><br>
+    <h3 style="text-align: center;">TEACHER SIGNUP</h3>
+    <form method="POST" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username">Username</label>
+                {% render_field userForm.username|attr:'required:true'  class="form-control" placeholder="username" %}
+            </div>
+            <div class="form-group">
+                <label for="inputPassword4">Password</label>
+                {% render_field userForm.password|attr:'required:true'  class="form-control" placeholder="password" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                {% render_field userForm.first_name|attr:'required:true'  class="form-control" placeholder="First Name" %}
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                {% render_field userForm.last_name|attr:'required:true'  class="form-control" placeholder="Last Name" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                {% render_field teacherForm.mobile|attr:'required:true'  class="form-control" placeholder="Mobile" %}
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                {% render_field teacherForm.address|attr:'required:true'  class="form-control" placeholder="Address" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="profile_pic">Profile Picture</label>
+                {% render_field teacherForm.profile_pic|attr:'required:true' class="form-control" placeholder="" %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+
+    <br><br>
+    {% include "quiz/footer.html" %}
+</body>
+</html>

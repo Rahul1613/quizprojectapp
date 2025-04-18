@@ -1,0 +1,102 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background for contrast */
+        }
+
+        .container {
+            margin-top: 50px; /* Space from the top */
+            margin-bottom: 50px; /* Space from the bottom */
+        }
+
+        .panel {
+            border: 1px solid #007bff; /* Custom border color */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .panel-heading {
+            background-color: #007bff; /* Custom heading color */
+            color: white; /* White text */
+            border-top-left-radius: 5px; /* Rounded corners */
+            border-top-right-radius: 5px; /* Rounded corners */
+        }
+
+        .panel-title {
+            font-size: 1.5rem; /* Larger font for title */
+            margin: 0; /* Remove margin */
+        }
+
+        .table {
+            background-color: white; /* White background for the table */
+            border-radius: 5px; /* Rounded corners */
+            overflow: hidden; /* Prevents border radius from being cut off */
+        }
+
+        .table thead {
+            background-color: #007bff; /* Heading background color */
+            color: white; /* White text for the header */
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1; /* Light gray background on hover */
+        }
+
+        th, td {
+            text-align: center; /* Center-align text */
+        }
+
+        h6 {
+            text-align: center; /* Center-align heading */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .row {
+                margin: 20px; /* Reduced margin on small screens */
+            }
+
+            .panel-title {
+                font-size: 1.25rem; /* Smaller title on small screens */
+            }
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">View Marks</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr>
+                    <th>Exam Name</th>
+                    <th>Total Marks</th>
+                    <th>Attempt Number</th>
+                    <th>Exam Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in results %}
+                <tr>
+                    <td>{{ t.exam }}</td>
+                    <td>{{ t.marks }}</td>
+                    <td>Attempt {{ forloop.counter }}</td>
+                    <td>{{ t.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

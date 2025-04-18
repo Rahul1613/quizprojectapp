@@ -1,0 +1,99 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient background */
+            color: #333; /* Default text color */
+        }
+
+        .jumbotron {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent background for jumbotron */
+            border-radius: 10px; /* Rounded corners */
+            padding: 30px; /* Padding for jumbotron */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+
+        .card {
+            border: none; /* Remove border for cards */
+            transition: transform 0.3s; /* Smooth transform on hover */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Scale up effect on hover */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+        }
+
+        .text-info {
+            font-weight: bold; /* Bold text for info */
+        }
+
+        .btn-info {
+            background-color: #17a2b8; /* Custom button color */
+            border: none; /* Remove border */
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        .btn-info:hover {
+            background-color: #138496; /* Darker color on hover */
+        }
+
+        h3 {
+            margin-bottom: 20px; /* Space below heading */
+        }
+
+        ul {
+            margin-left: 20px; /* Space to the left of list */
+        }
+
+        .card-footer {
+            background: #f7f7f7; /* Light background for footer */
+            font-weight: bold; /* Bold footer text */
+        }
+    </style>
+</head>
+
+<br><br>
+<div class="container my-4">
+    <div class="jumbotron">
+        <h3 class="text-info text-center">Before you start the Exam, here are the rules</h3>
+
+        <div class="row">
+            <div class="card border-info mx-4 my-4">
+                <div class="card-body text-info">
+                    <h4 class="card-title">Exam Details :</h4>
+                    <p class="card-text"></p>
+                    <ul style="list-style: decimal;">
+                        <li>Exam Name: {{course.course_name}}</li>
+                        <li>Total Questions: {{total_questions}}</li>
+                        <li>Total Marks: {{total_marks}}</li>
+                    </ul>
+                    <p></p>
+
+                    <h4 class="card-title">Rules :</h4>
+                    <p class="card-text"></p>
+                    <ul style="list-style: decimal;">
+                        <li>All questions are multiple-choice questions.</li>
+                        <li><span class="text-danger">Only one choice is correct.</span></li>
+                        <li>Every question carries different marks.</li>
+                        <li>Try to answer as quickly as you can.</li>
+                        <li>If you press refresh or go back to the previous page, there will be a new question for you, and the question you were on will be counted as attempted.</li>
+                        <li>Questions are displayed randomly for every user.</li>
+                        <li>You will be told your marks immediately when you submit the answer.</li>
+                    </ul>
+                    <p></p>
+                    <a href="{% url 'start-exam' course.id %}" class="btn btn-info">Let's Start</a>
+                </div>
+                <div class="card-footer">Best Of Luck</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}

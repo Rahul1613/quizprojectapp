@@ -1,0 +1,133 @@
+{% extends 'student/studentbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            background-color: #f0f4f8; /* Light background color for a fresh look */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        .order-card {
+            color: #ffffff; /* White text for better contrast */
+        }
+
+        .bg-c-blue {
+            background: #04868f; /* Teal background */
+        }
+
+        .bg-c-green {
+            background: #4C51BF; /* Deep blue background */
+        }
+
+        .bg-c-yellow {
+            background: #FBBF24; /* Yellow background */
+        }
+
+        .bg-c-pink {
+            background: #FF6F61; /* Coral background */
+        }
+
+        .card {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            border: none; /* Remove border */
+            margin-bottom: 30px; /* Margin below cards */
+            border-radius: 12px; /* Rounded corners */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+        }
+
+        .card .card-block {
+            padding: 25px; /* Padding inside card */
+        }
+
+        .order-card i {
+            font-size: 30px; /* Larger icon size for better visibility */
+            margin-right: 15px; /* Spacing between icon and text */
+        }
+
+        h6 {
+            font-weight: bold; /* Bold headings */
+            margin-bottom: 10px; /* Space below headings */
+            font-size: 1.1em; /* Slightly larger font size */
+        }
+
+        h2 {
+            font-size: 2.5em; /* Large font for numbers */
+            font-weight: bold; /* Bold font for emphasis */
+            line-height: 1.2; /* Improved line height for readability */
+        }
+
+        .f-left {
+            float: left; /* Float left for icon */
+        }
+
+        .f-right {
+            float: right; /* Float right if needed */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 20px; /* Reduced margin for smaller screens */
+            }
+
+            h2 {
+                font-size: 2em; /* Smaller font size for numbers */
+            }
+
+            .order-card i {
+                font-size: 28px; /* Adjust icon size for smaller screens */
+            }
+
+            h6 {
+                font-size: 1em; /* Adjust heading size */
+            }
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xl-6">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Total Exams Available</h6>
+                    <h2 class="text-right"><i class="fas fa-book f-left"></i><span>{{ total_course }}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-6">
+            <div class="card bg-c-pink order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Total Questions</h6>
+                    <h2 class="text-right"><i class="fas fa-question-circle f-left"></i><span>{{ total_question }}</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+{% endblock content %}

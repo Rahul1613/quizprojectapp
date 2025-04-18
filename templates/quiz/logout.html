@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            margin: 0;
+            font-family: Arial, sans-serif; /* Font family */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Full height of the viewport */
+        }
+
+        .logout-img {
+            width: 800px; /* Image width */
+            height: auto; /* Maintain aspect ratio */
+            margin: 20px 0; /* Vertical spacing */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            border-radius: 15px; /* Rounded corners */
+        }
+
+        .footer {
+            margin-top: auto; /* Push footer to the bottom */
+            padding: 20px 0; /* Padding for footer */
+            text-align: center; /* Centered text */
+            background-color: #343a40; /* Dark background */
+            color: #ffffff; /* White text color */
+            position: relative; /* Positioning for footer */
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Large heading */
+            color: #343a40; /* Dark text color */
+            margin-bottom: 20px; /* Margin for spacing */
+        }
+    </style>
+</head>
+<body>
+    {% include "quiz/navbar.html" %}
+    
+    <div class="container">
+        <h1>Logout Successful</h1>
+        <img src="{% static "image/logout_img.png" %}" class="logout-img" alt="Logout Image">
+    </div>
+
+    <footer class="footer">
+        {% include "quiz/footer.html" %}
+    </footer>
+</body>
+</html>

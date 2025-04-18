@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Student Signup</title>
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #b92b27, #1565c0); /* Gradient background */
+            height: 100vh; /* Full height */
+            display: flex; /* Flexbox for centering */
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            color: white; /* Default text color */
+            position: relative; /* Set position for absolute footer */
+        }
+
+        /* Heading Styles */
+        h3 {
+            color: #ff4d4d; /* Bright red for heading */
+            margin-bottom: 20px; /* Space below heading */
+            font-size: 2rem; /* Larger heading */
+            font-weight: bold; /* Bold font */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Shadow effect for text */
+            text-align: center; /* Centered heading */
+        }
+
+        /* Form Styles */
+        form {
+            width: 400px; /* Fixed width for the form */
+            background: rgba(30, 30, 30, 0.9); /* Semi-transparent dark background for form */
+            padding: 30px; /* Padding around the form */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            transition: 0.3s; /* Smooth transition for hover effects */
+        }
+
+        /* Label Styles */
+        .form-group label {
+            color: #ccc; /* Lighter color for labels */
+            font-weight: bold; /* Bold labels */
+            margin-bottom: 5px; /* Space below labels */
+            display: block; /* Block display for labels */
+        }
+
+        /* Input Styles */
+        .form-control {
+            border: 2px solid #3498db; /* Border color */
+            border-radius: 24px; /* Rounded corners for inputs */
+            padding: 12px; /* Padding for input fields */
+            width: 100%; /* Full width */
+            margin: 10px 0; /* Space above and below */
+            outline: none; /* Remove outline */
+            color: white; /* White text */
+            background: transparent; /* Transparent background */
+            transition: border-color 0.25s, background-color 0.25s; /* Smooth transition */
+        }
+
+        /* Input Focus State */
+        .form-control:focus {
+            border-color: #2ecc71; /* Change border color on focus */
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on focus */
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            border: none; /* Remove border */
+            background: #2ecc71; /* Button background */
+            color: white; /* Button text color */
+            border-radius: 24px; /* Rounded corners */
+            padding: 12px; /* Padding for button */
+            cursor: pointer; /* Pointer cursor */
+            transition: background 0.25s, transform 0.25s; /* Smooth transition */
+            margin-top: 20px; /* Space above button */
+            width: 100%; /* Full width for the button */
+            font-size: 1.1rem; /* Slightly larger button text */
+            font-weight: bold; /* Bold button text */
+        }
+
+        /* Button Hover and Active States */
+        .btn-primary:hover {
+            background: #27ae60; /* Darker green on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+
+        .btn-primary:active {
+            transform: translateY(0); /* Reset lift effect on click */
+        }
+
+        /* Footer Styles */
+        footer {
+            position: absolute; /* Absolute positioning for footer */
+            bottom: 20px; /* Distance from the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for center alignment */
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: #ccc; /* Footer text color */
+            text-align: center; /* Centered text in footer */
+            padding: 10px 20px; /* Padding around footer */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            font-size: 0.9rem; /* Smaller text for footer */
+        }
+
+        /* Media Query for Responsive Design */
+        @media (max-width: 480px) {
+            form {
+                width: 90%; /* Full width on small screens */
+                padding: 20px; /* Less padding */
+            }
+
+            h3 {
+                font-size: 1.8rem; /* Smaller heading on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "quiz/navbar.html" %}
+ 
+    <h3>Student Signup</h3>
+    <form method="POST" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="username">Username</label>
+                {% render_field userForm.username|attr:'required:true' class="form-control" placeholder="Enter your username" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Password</label>
+                {% render_field userForm.password|attr:'required:true' class="form-control" placeholder="Create a password" %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputConfirmPassword">Confirm Password</label>
+                {% render_field userForm.password|attr:'required:true' class="form-control" placeholder="Re-enter your password" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first_name">First Name</label>
+                {% render_field userForm.first_name|attr:'required:true' class="form-control" placeholder="First Name" %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last_name">Last Name</label>
+                {% render_field userForm.last_name|attr:'required:true' class="form-control" placeholder="Last Name" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="mobile">Mobile Number</label>
+                {% render_field studentForm.mobile|attr:'required:true' class="form-control" placeholder="Mobile" %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="address">Address</label>
+                {% render_field studentForm.address|attr:'required:true' class="form-control" placeholder="Address" %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="profile_pic">Profile Picture</label>
+                {% render_field studentForm.profile_pic|attr:'required:true' class="form-control" placeholder="Upload profile picture" %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+
+    <footer>
+        <p>Gharda institude of technology.</p>
+    </footer>
+</body>
+</html>

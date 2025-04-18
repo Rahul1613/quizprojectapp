@@ -1,0 +1,67 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            font-family: 'Arial', sans-serif; /* Change font for better readability */
+        }
+        h3 {
+            text-align: center; /* Center the heading */
+            margin: 20px 0; /* Margin for spacing */
+            color: #343a40; /* Dark text color for better contrast */
+        }
+        a:link, a:visited {
+            text-decoration: none; /* No underline for links */
+            color: #007bff; /* Bootstrap primary link color */
+        }
+        a:hover {
+            text-decoration: underline; /* Underline on hover for better UX */
+        }
+        .form-container {
+            margin: 50px auto; /* Center the form container */
+            max-width: 600px; /* Set a max width for the form */
+            padding: 30px; /* Padding for the form */
+            background-color: #ffffff; /* White background for the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+            transition: transform 0.2s; /* Transition for hover effect */
+        }
+        .form-container:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+        .form-group label {
+            font-weight: bold; /* Bold labels */
+            color: #495057; /* Darker label color */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Custom Bootstrap primary color */
+            border-color: #007bff; /* Match border color with background */
+            transition: background-color 0.3s, border-color 0.3s; /* Transition effect */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            border-color: #0056b3; /* Darker border on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h3>Fill Salary Of Teacher</h3>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="salary">Salary</label>
+                {% render_field teacherSalary.salary class="form-control" placeholder="5000" %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Approve</button> <!-- Full-width button -->
+        </form>
+    </div>
+    <br><br><br>
+{% endblock content %}

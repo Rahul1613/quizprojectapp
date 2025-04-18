@@ -1,0 +1,161 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background for contrast */
+}
+
+/* Header Styles */
+header {
+    position: fixed;
+    background: #343a40; /* Darker background */
+    padding: 20px;
+    width: 100%;
+    z-index: 1;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+header:hover {
+    background: #495057; /* Darken on hover */
+}
+
+.left_area h3 {
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 22px;
+    font-weight: 700; /* Bolder font weight */
+}
+
+.logout_btn {
+    padding: 10px 15px;
+    background: #17a2b8; /* Primary color for buttons */
+    text-decoration: none;
+    float: right;
+    margin-top: -30px;
+    margin-right: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    transition: background 0.3s ease; /* Smooth transition */
+}
+
+.logout_btn:hover {
+    background: #138496; /* Darker shade on hover */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background: #212529; /* Dark sidebar */
+    margin-top: 70px;
+    padding-top: 30px;
+    position: fixed;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    transition: 0.5s;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.sidebar .profile_image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Circular profile image */
+    margin-bottom: 10px;
+    border: 2px solid #17a2b8; /* Border for profile image */
+}
+
+.sidebar h4 {
+    color: #ffffff; /* Changed to white for better visibility */
+    margin-top: 0;
+    text-align: center; /* Centered the text */
+}
+
+.sidebar h6 {
+    color: #ccc; /* Lighter color for subtext */
+    text-align: center; /* Centered the text */
+}
+
+.sidebar a {
+    color: #ffffff;
+    display: block;
+    width: 100%;
+    line-height: 60px;
+    text-decoration: none;
+    padding-left: 40px;
+    box-sizing: border-box;
+    transition: background 0.3s ease; /* Smooth transition */
+}
+
+.sidebar a:hover {
+    background: #17a2b8; /* Highlight on hover */
+}
+
+.sidebar i {
+    padding-right: 10px;
+}
+
+/* Sidebar toggle button */
+label #sidebar_btn {
+    z-index: 1;
+    color: #ffffff;
+    position: fixed;
+    cursor: pointer;
+    left: 300px;
+    font-size: 20px;
+    margin: 5px 0;
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+label #sidebar_btn:hover {
+    color: #17a2b8; /* Highlight on hover */
+}
+
+/* Sidebar collapsing behavior */
+#check:checked~.sidebar {
+    left: -190px;
+}
+
+#check:checked~.sidebar a span {
+    display: none;
+}
+
+#check:checked~.sidebar a {
+    font-size: 20px;
+    margin-left: 170px;
+    width: 80px;
+}
+
+/* Content Styles */
+.content {
+    margin-left: 250px;
+    padding: 20px; /* Padding for content area */
+    background: url("{% static 'background.png' %}") no-repeat center center fixed; /* Use Django static */
+    background-size: cover;
+    height: 100vh;
+    transition: margin-left 0.5s;
+}
+
+/* Adjust content margin when sidebar is toggled */
+#check:checked~.content {
+    margin-left: 60px;
+}
+
+/* Checkbox for sidebar toggle */
+#check {
+    display: none; /* Hide checkbox */
+}
+
+/* Footer Styles */
+footer {
+    background: #343a40; /* Footer color */
+    color: #ffffff; /* Footer text color */
+    text-align: center; /* Centered footer text */
+    padding: 15px 0; /* Padding for footer */
+    position: relative; /* Allow footer to sit below content */
+    bottom: 0;
+    width: 100%; /* Full width for footer */
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2); /* Shadow effect on top */
+}

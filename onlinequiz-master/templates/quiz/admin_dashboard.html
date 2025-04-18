@@ -1,0 +1,165 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
+        /* General Styles */
+        body {
+            background-color: #f1f3f5; /* Light gray background for contrast */
+            font-family: 'Arial', sans-serif; /* Modern font */
+        }
+
+        a {
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        /* Card Styles */
+        .order-card {
+            color: #ffffff; /* White text for cards */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+            border-radius: 10px; /* Rounded corners */
+            border: none; /* Remove default border */
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Soft shadow on hover */
+        }
+
+        .bg-c-blue {
+            background: #007bff; /* Bootstrap primary color */
+        }
+
+        .bg-c-green {
+            background: #28a745; /* Bootstrap success color */
+        }
+
+        .bg-c-yellow {
+            background: #ffc107; /* Bootstrap warning color */
+        }
+
+        .bg-c-pink {
+            background: #e83e8c; /* Bootstrap danger color */
+        }
+
+        .card {
+            margin-bottom: 30px; /* Space below each card */
+        }
+
+        .card-block {
+            padding: 30px; /* Increased padding for a spacious look */
+            text-align: center; /* Center content */
+        }
+
+        .order-card i {
+            font-size: 48px; /* Larger icon size */
+            margin-bottom: 15px; /* Space below icons */
+        }
+
+        .order-card h6 {
+            font-size: 16px; /* Font size for headings */
+            margin-bottom: 10px; /* Space below headings */
+        }
+
+        .order-card h2 {
+            font-size: 24px; /* Font size for numbers */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .card-block {
+                padding: 20px; /* Reduced padding on smaller screens */
+            }
+
+            .order-card i {
+                font-size: 36px; /* Smaller icons on mobile */
+            }
+
+            .order-card h2 {
+                font-size: 20px; /* Smaller font size on mobile */
+            }
+
+            .order-card h6 {
+                font-size: 14px; /* Smaller font size on mobile */
+            }
+        }
+
+        header {
+            left: 0px;
+            right: 0px;
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6>Total Students</h6>
+                    <h2>
+                        <i class="fas fa-user-graduate"></i>
+                        <span>{{total_student}}</span>
+                    </h2>
+                    <a href="admin-view-student" class="btn btn-light btn-sm mt-3">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6>Total Teachers</h6>
+                    <h2>
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>{{total_teacher}}</span>
+                    </h2>
+                    <a href="admin-view-teacher" class="btn btn-light btn-sm mt-3">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6>Total Courses</h6>
+                    <h2>
+                        <i class="fas fa-book"></i>
+                        <span>{{total_course}}</span>
+                    </h2>
+                    <a href="admin-view-course" class="btn btn-light btn-sm mt-3">View</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-pink order-card">
+                <div class="card-block">
+                    <h6>Total Questions</h6>
+                    <h2>
+                        <i class="fas fa-question-circle"></i>
+                        <span>{{total_question}}</span>
+                    </h2>
+                    <a href="admin-view-question" class="btn btn-light btn-sm mt-3">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+{% endblock content %}

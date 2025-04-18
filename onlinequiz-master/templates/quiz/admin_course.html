@@ -1,0 +1,111 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background-color: #f8f9fa; /* Light background for better contrast */
+        }
+
+        a:link, a:visited {
+            text-decoration: none; /* No underline for links */
+        }
+
+        .order-card {
+            color: #ffffff; /* White text for cards */
+            border-radius: 10px; /* Rounded corners for cards */
+        }
+
+        .bg-c-blue {
+            background: #007bff; /* Bootstrap primary color */
+        }
+
+        .bg-c-green {
+            background: #28a745; /* Bootstrap success color */
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+            border: none; /* No border */
+            margin-bottom: 30px; /* Space below each card */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .card .card-block {
+            padding: 30px; /* Increased padding for better spacing */
+            text-align: center; /* Center align card content */
+        }
+
+        .order-card i {
+            font-size: 40px; /* Larger icon size */
+            margin-right: 10px; /* Space between icon and text */
+        }
+
+        .f-left {
+            float: left; /* Floats icon to the left */
+        }
+
+        .text-right {
+            display: flex;
+            align-items: center; /* Center-align text vertically */
+            justify-content: flex-end; /* Align text to the right */
+        }
+
+        .container {
+            margin-top: 50px; /* Space from the top */
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .order-card {
+                text-align: center; /* Center align for smaller screens */
+            }
+
+            .f-left {
+                float: none; /* Reset float for smaller screens */
+                margin: 0 auto; /* Center icons */
+            }
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-6">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20"><a href="admin-add-course" style="color:white;">Add Course</a></h6>
+                    <h2 class="text-right"><i class="fas fa-plus"></i></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-6">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20"><a href="admin-view-course" style="color:white;">View Course</a></h6>
+                    <h2 class="text-right"><i class="fas fa-eye"></i></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+{% endblock content %}

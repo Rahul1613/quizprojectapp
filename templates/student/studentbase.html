@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz - Student</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+    
+    <style media="screen">
+        /* General Body Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
+            background-color: #f4f4f4; /* Light background for contrast */
+            color: #333; /* Dark text for readability */
+            line-height: 1.6; /* Improved line height for text */
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            background: #22242A; /* Dark background for header */
+            padding: 10px 15px; /* Reduced padding for a smaller header */
+            width: 100%;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow for depth */
+        }
+
+        .left_area h3 {
+            color: #fff;
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 20px; /* Reduced font size */
+            font-weight: 700; /* Bold font */
+            line-height: 1.2; /* Reduced line height */
+        }
+
+        .logout_btn {
+            padding: 8px 12px; /* Reduced padding for the button */
+            background: #19B3D3;
+            text-decoration: none;
+            float: right;
+            border-radius: 5px;
+            font-size: 14px; /* Reduced font size for the button */
+            font-weight: 600;
+            color: #fff;
+            transition: background 0.3s, transform 0.3s; /* Added transform for scale effect */
+        }
+
+        .logout_btn:hover {
+            background: #0B87A6;
+            transform: scale(1.05); /* Slightly scale the button on hover */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: #2f323a;
+            margin-top: 70px;
+            padding-top: 30px;
+            position: fixed;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            transition: left 0.3s; /* Smooth transition */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for sidebar */
+            overflow-y: auto; /* Enable scrolling for long sidebars */
+        }
+
+        .sidebar .profile_image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Circular profile image */
+            margin-bottom: 10px;
+        }
+
+        .sidebar h4 {
+            color: #fff; /* White text for visibility */
+            margin: 10px 0 5px; /* Spacing adjustments */
+            font-size: 20px; /* Increased font size for visibility */
+        }
+
+        .sidebar h6 {
+            color: #ccc; /* Slightly muted text */
+            margin: 0;
+            font-size: 14px; /* Smaller font for role */
+        }
+
+        .sidebar a {
+            color: #fff;
+            display: block;
+            width: 100%;
+            line-height: 60px;
+            text-decoration: none;
+            padding-left: 40px;
+            box-sizing: border-box;
+            transition: background 0.3s, padding-left 0.3s; /* Smooth transition */
+        }
+
+        .sidebar a:hover {
+            background: #19B3D3; /* Highlight on hover */
+            padding-left: 50px; /* Slightly increase padding on hover */
+        }
+
+        .sidebar i {
+            padding-right: 10px;
+            transition: transform 0.3s; /* Icon hover effect */
+        }
+
+        .sidebar a:hover i {
+            transform: scale(1.1); /* Scale up icon on hover */
+        }
+
+        /* Sidebar Button Styles */
+        label #sidebar_btn {
+            z-index: 1;
+            color: #fff;
+            position: fixed;
+            cursor: pointer;
+            left: 300px;
+            font-size: 24px; /* Larger icon for better visibility */
+            margin: 5px 0;
+            transition: color 0.3s;
+        }
+
+        label #sidebar_btn:hover {
+            color: #19B3D3; /* Change color on hover */
+        }
+
+        /* Content Styles */
+        .content {
+            margin-left: 250px;
+            background: #e9ecef; /* Light background for content area */
+            height: 100vh;
+            transition: margin-left 0.3s; /* Smooth transition */
+            padding: 20px; /* Padding for content */
+            overflow-y: auto; /* Enable scrolling for long content */
+        }
+
+        /* Checkbox Styles */
+        #check {
+            display: none; /* Hide checkbox */
+        }
+
+        /* Sidebar Collapse Effect */
+        #check:checked ~ .sidebar {
+            left: -190px; /* Collapse sidebar */
+        }
+
+        #check:checked ~ .sidebar a span {
+            display: none; /* Hide text in sidebar */
+        }
+
+        #check:checked ~ .sidebar a {
+            font-size: 20px; /* Adjust font size */
+            margin-left: 170px;
+            width: 80px;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px; /* Start with sidebar hidden */
+            }
+
+            #check:checked ~ .sidebar {
+                left: 0; /* Show sidebar on check */
+            }
+
+            .content {
+                margin-left: 0; /* No margin for small screens */
+            }
+
+            #check:checked ~ .content {
+                margin-left: 0; /* No margin for small screens */
+            }
+
+            .logout_btn {
+                font-size: 14px; /* Smaller button on mobile */
+            }
+        }
+    </style>
+    {% block css %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <input type="checkbox" id="check">
+    <!--header area start-->
+    <header>
+        <label for="check">
+            <i style="left: 200px; margin-top: 5px;" class="fas fa-bars" id="sidebar_btn"></i> <!-- Reduced margin-top for icon -->
+        </label>
+        <div class="left_area">
+            <h3>Aptitude Test</h3>
+        </div>
+        <div class="right_area">
+            <a href="/logout" class="logout_btn">Logout</a>
+        </div>
+    </header>
+    <!--header area end-->
+    
+    <!--sidebar start-->
+    <div class="sidebar">
+        <center>
+            <img src="{% static 'image/student.png' %}" class="profile_image" alt="">
+            <h4>{{ request.user.first_name }}</h4>
+            <h6>( Student )</h6>
+        </center>
+
+        <a href="/student/student-dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+        <a href="/student/student-exam"><i class="fas fa-book"></i><span>Exam</span></a>
+        <a href="/student/student-marks"><i class="fas fa-sort-numeric-up"></i><span>Marks</span></a>
+    </div>
+    <!--sidebar end-->
+
+    <!--content start-->
+    <div class="content">
+        <br><br><br>
+        {% block content %}
+        {% endblock content %}
+        <br><br><br>
+        {% include "quiz/footer.html" %}
+    </div>
+    <!--content end-->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/chatbot.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+</body>
+
+</html>

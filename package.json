@@ -1,0 +1,87 @@
+{
+  "name": "quiz-app-desktop",
+  "version": "1.0.0",
+  "description": "Desktop Quiz Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.quizapp.desktop",
+    "productName": "Quiz App",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "publisherName": "Quiz App Team"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Quiz App",
+      "uninstallDisplayName": "Quiz App",
+      "license": "LICENSE.txt",
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    },
+    "extraResources": [
+      {
+        "from": "python_dist",
+        "to": "python_dist",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "db",
+        "to": "db",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "static",
+        "to": "static",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "templates",
+        "to": "templates",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "fileAssociations": [],
+    "asar": true
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^5.0.1",
+    "electron-updater": "^6.1.4",
+    "fs-extra": "^11.1.1",
+    "socket.io-client": "^4.7.2",
+    "sqlite3": "^5.1.6"
+  }
+}

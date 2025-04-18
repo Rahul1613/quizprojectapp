@@ -1,0 +1,125 @@
+{% extends 'teacher/teacherbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f7fa; /* Light background for contrast */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+            color: #333; /* Dark text color */
+            margin: 0; /* Remove default margin */
+            padding: 20px; /* Add some padding */
+        }
+
+        h6 {
+            text-align: center;
+            color: #00dbde; /* Eye-catching color for titles */
+        }
+
+        .container {
+            margin-top: 50px; /* Space above the container */
+            margin-bottom: 50px; /* Space below the container */
+        }
+
+        .panel-primary {
+            border-color: #00dbde; /* Matching border color */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .panel-heading {
+            background-color: #00dbde; /* Panel header color */
+            color: #ffffff; /* White text for contrast */
+            border-top-left-radius: 10px; /* Round top corners */
+            border-top-right-radius: 10px;
+            padding: 15px; /* Padding inside the header */
+        }
+
+        .table {
+            border-radius: 10px; /* Rounded corners for table */
+            overflow: hidden; /* Clip corners */
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #e9f7ff; /* Light blue background on hover */
+        }
+
+        .table th {
+            background-color: #007bff; /* Header background color */
+            color: #ffffff; /* Header text color */
+            text-align: center; /* Center header text */
+            font-weight: bold; /* Bold header text */
+        }
+
+        .table td {
+            text-align: center; /* Center table cell text */
+            vertical-align: middle; /* Align text vertically */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Bootstrap danger color */
+            border: none; /* No border */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+            border-radius: 20px; /* Rounded button */
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red on hover */
+            transform: scale(1.05); /* Slightly enlarge button */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px; /* Reduce margin on small screens */
+            }
+
+            .panel-heading {
+                padding: 10px; /* Less padding on small screens */
+            }
+
+            .table {
+                font-size: 14px; /* Smaller font size for small screens */
+            }
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Exams</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Total Questions</th>
+                    <th>Total Marks</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in courses %}
+                <tr>
+                    <td>{{ t.course_name }}</td>
+                    <td>{{ t.question_number }}</td>
+                    <td>{{ t.total_marks }}</td>
+                    <td>
+                        <a class="btn btn-danger btn-xs" href="{% url 'delete-exam' t.id %}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

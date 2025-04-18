@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Feedback Success</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #4e54c8, #8f94fb); /* Gradient background */
+            color: #fff; /* White text for better contrast */
+            font-family: 'Arial', sans-serif; /* Modern font */
+            height: 100vh; /* Full height for body */
+            display: flex; /* Center the content vertically */
+            align-items: center; /* Center the content vertically */
+            justify-content: center; /* Center the content horizontally */
+            text-align: center; /* Center text */
+            margin: 0; /* Remove default margin */
+        }
+
+        .jumbotron {
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            border-radius: 15px; /* Rounded corners */
+            padding: 40px; /* Padding around the jumbotron */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+            transition: transform 0.3s; /* Smooth scale transition */
+        }
+
+        .jumbotron:hover {
+            transform: scale(1.02); /* Slightly scale up on hover */
+        }
+
+        .jumbotron h1 {
+            font-size: 2.5rem; /* Larger font size */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+
+        .jumbotron p.lead {
+            font-size: 1.2rem; /* Larger lead text */
+            margin-bottom: 20px; /* Space below the lead text */
+        }
+
+        .btn-primary {
+            background: #007bff; /* Primary button color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners for buttons */
+            padding: 12px 30px; /* Padding for buttons */
+            font-size: 1.1rem; /* Font size for buttons */
+            transition: background-color 0.3s; /* Smooth background color transition */
+        }
+
+        .btn-primary:hover {
+            background: #0056b3; /* Darker blue on hover */
+            box-shadow: 0 2px 8px rgba(0, 91, 179, 0.2); /* Add shadow on hover */
+        }
+
+        @media (max-width: 480px) {
+            .jumbotron {
+                padding: 20px; /* Reduced padding on small screens */
+            }
+
+            .jumbotron h1 {
+                font-size: 2rem; /* Smaller font size for heading */
+            }
+
+            .jumbotron p.lead {
+                font-size: 1rem; /* Smaller lead text */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "quiz/navbar.html" %}
+    <br><br>
+
+    <div class="jumbotron">
+        <h1 class="display-4">Your message was sent successfully!</h1>
+        <p class="lead">We will respond to your feedback soon.</p>
+        <hr class="my-4">
+        <p>Check out other features of the website!</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
+        </p>
+    </div>
+
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

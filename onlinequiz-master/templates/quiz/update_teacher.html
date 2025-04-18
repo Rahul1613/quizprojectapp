@@ -1,0 +1,100 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+    <style media="screen">
+        /* Custom Styles */
+        body {
+            background-color: #f8f9fa; /* Light background for better contrast */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+        }
+        h3 {
+            text-align: center; /* Center the heading */
+            margin: 20px 0; /* Margin for spacing */
+            color: #343a40; /* Darker text color for better visibility */
+        }
+        .form-container {
+            margin: 50px auto; /* Center the form container */
+            max-width: 600px; /* Maximum width of the form */
+            padding: 30px; /* Padding for the form */
+            background-color: #ffffff; /* White background for the form */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+        }
+        label {
+            font-weight: bold; /* Bold labels for clarity */
+            margin-top: 10px; /* Margin for spacing */
+            display: block; /* Block display for labels */
+            color: #495057; /* Darker label color */
+        }
+        input[type=text],
+        input[type=number],
+        input[type=password],
+        select,
+        textarea {
+            width: 100%; /* Full width inputs */
+            padding: 12px 20px; /* Padding for inputs */
+            margin: 8px 0; /* Margin for spacing */
+            border: 1px solid #ccc; /* Border style */
+            border-radius: 4px; /* Rounded corners */
+            box-sizing: border-box; /* Box sizing */
+            transition: border-color 0.3s; /* Smooth transition for focus */
+        }
+        input[type=text]:focus,
+        input[type=number]:focus,
+        input[type=password]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4CAF50; /* Green border on focus */
+            outline: none; /* Remove outline */
+        }
+        input[type=submit] {
+            width: 100%; /* Full width submit button */
+            background-color: #4CAF50; /* Primary button color */
+            color: white; /* Text color */
+            padding: 14px 20px; /* Padding for button */
+            margin: 8px 0; /* Margin for spacing */
+            border: none; /* Remove border */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Font size for button */
+            transition: background-color 0.3s; /* Smooth transition for hover */
+        }
+        input[type=submit]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<div class="form-container">
+    <h3>UPDATE TEACHER</h3>
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <label for="first_name">First Name</label>
+        {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
+        
+        <label for="last_name">Last Name</label>
+        {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
+        
+        <label for="mobile">Mobile</label>
+        {% render_field teacherForm.mobile class="form-control" placeholder="Mobile" %}
+        
+        <label for="address">Address</label>
+        {% render_field teacherForm.address class="form-control" placeholder="Address" %}
+        
+        <label for="username">Username</label>
+        {% render_field userForm.username class="form-control" placeholder="Username" %}
+        
+        <label for="password">Password</label>
+        {% render_field userForm.password class="form-control" placeholder="Password" %}
+        
+        <label for="profile_pic">Profile Picture</label>
+        {% render_field teacherForm.profile_pic class="form-control" placeholder="Profile Picture" %}
+        
+        <input type="submit" value="Update">
+    </form>
+</div>
+
+<br><br><br><br><br><br><br><br>
+{% endblock content %}

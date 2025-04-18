@@ -1,0 +1,130 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+<style>
+  .upload-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #1a2433, #0c1220);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .upload-title {
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-label {
+    color: #a0aec0;
+    font-size: 14px;
+  }
+  
+  .form-input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-size: 16px;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #00a8ff;
+    box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.2);
+  }
+  
+  .submit-btn {
+    background: #00a8ff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background: #0097e6;
+    transform: translateY(-2px);
+  }
+  
+  .csv-format {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .csv-format-title {
+    color: #00a8ff;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .csv-format-text {
+    color: #a0aec0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+</style>
+
+<div class="upload-container">
+  <h2 class="upload-title">Upload MCQ Questions</h2>
+  
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  
+  <form method="post" enctype="multipart/form-data" class="upload-form">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label class="form-label">Course</label>
+      <select name="course" class="form-input" required>
+        <option value="">Select a course</option>
+        {% for course in courses %}
+          <option value="{{ course.id }}">{{ course.course_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">CSV File</label>
+      <input type="file" name="csv_file" class="form-input" accept=".csv" required>
+    </div>
+    
+    <button type="submit" class="submit-btn">Upload Questions</button>
+  </form>
+  
+  <div class="csv-format">
+    <h3 class="csv-format-title">CSV Format Instructions</h3>
+    <p class="csv-format-text">
+      Your CSV file should have the following columns:<br>
+      question_text,option1,option2,option3,option4,correct_answer,marks<br><br>
+      Example:<br>
+      "What is 2+2?","3","4","5","6","B",1
+    </p>
+  </div>
+</div>
+{% endblock content %} 

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Database Section</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(to right, #1b1e34, #252b47);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #2a2d45;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        /* Header */
+        header h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            color: #00dbde;
+        }
+
+        /* Form Styling */
+        .upload-section h2 {
+            font-size: 2rem;
+            text-align: center;
+            color: #00dbde;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            background-color: #3e4159;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, border 0.3s ease;
+        }
+
+        select:hover,
+        input[type="file"]:hover {
+            background-color: #2c2f45;
+            border: 1px solid #00dbde; /* Border effect on hover */
+        }
+
+        button {
+            background: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Quiz Section */
+        #quiz {
+            margin-top: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+            border-top: 1px solid #00dbde;
+            padding-top: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #3e4159;
+            border-radius: 5px;
+        }
+
+        .options label {
+            display: block;
+            padding: 5px;
+            background-color: #3e4159;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .options label:hover {
+            background-color: #2c2f45;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+
+            .question {
+                padding: 5px; /* Adjust padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Upload Your Database Here</h1>
+        </header>
+
+        <!-- Upload Questions Section -->
+        <div class="upload-section">
+            <h2>Upload Questions for Domain</h2>
+            <form id="upload-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="domain-select">Select Domain:</label>
+                <select id="domain-select" name="domain">
+                    <option value="html">HTML</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                    <option value="c">C</option>
+                    <option value="cplusplus">C++</option>
+                </select>
+
+                <label for="csv-upload">Upload CSV File:</label>
+                <input type="file" id="csv-upload" name="csv-file" accept=".csv" required>
+
+                <button type="submit">Upload</button>
+            </form>
+            <div id="quiz"></div>
+            <button id="submit-quiz" style="display:none;">Submit Quiz</button>
+        </div>
+
+        <script>
+            // JavaScript code for handling file uploads and CSV parsing
+            document.getElementById('upload-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const fileInput = document.getElementById('csv-upload');
+                const file = fileInput.files[0];
+                const domain = document.getElementById('domain-select').value;
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const content = e.target.result;
+                        const questions = parseCSV(content);
+                        displayQuiz(questions, domain);
+                    };
+                    reader.readAsText(file);
+                }
+            });
+
+            function parseCSV(data) {
+                const lines = data.split('\n');
+                const questions = [];
+                for (const line of lines) {
+                    const parts = line.split(',');
+                    if (parts.length > 1) {
+                        questions.push({
+                            question: parts[0].trim(),
+                            options: parts.slice(1).map(option => option.trim())
+                        });
+                    }
+                }
+                return questions;
+            }
+
+            function displayQuiz(questions, domain) {
+                let quizDiv = document.getElementById('quiz');
+                quizDiv.innerHTML = `<h2>Questions for ${domain}:</h2>`;
+                questions.forEach((q, index) => {
+                    quizDiv.innerHTML += `<div class="question">
+                        <p><strong>${index + 1}. ${q.question}</strong></p>
+                        <div class="options">${q.options.map((option) => `
+                            <label>
+                                <input type="radio" name="question${index}" value="${option}">
+                                ${option}
+                            </label>
+                        `).join('')}</div>
+                    </div>`;
+                });
+                document.getElementById('submit-quiz').style.display = 'block';
+            }
+
+            document.getElementById('submit-quiz').addEventListener('click', function () {
+                const selectedAnswers = [];
+                const questions = document.querySelectorAll('.question');
+                questions.forEach((q, index) => {
+                    const answer = q.querySelector(`input[name="question${index}"]:checked`);
+                    selectedAnswers.push(answer ? answer.value : 'No answer selected');
+                });
+
+                alert('Your answers: ' + selectedAnswers.join(', '));
+            });
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Feedback Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            height: 100vh; /* Full height for the body */
+            display: flex; /* Center the content vertically */
+            align-items: center; /* Center the content vertically */
+            justify-content: center; /* Center the content horizontally */
+        }
+
+        .container {
+            background: #ffffff; /* White background for the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            padding: 40px; /* Padding for the form */
+            width: 400px; /* Fixed width for the form */
+            text-align: center; /* Center text in the form */
+        }
+
+        h3.alert {
+            color: #ffffff; /* White text for the alert */
+            background: #28a745; /* Green background for alert */
+            padding: 15px; /* Padding for the alert */
+            border-radius: 5px; /* Rounded corners for the alert */
+        }
+
+        .form-group {
+            margin-top: 20px; /* Space above form group */
+        }
+
+        .form-control {
+            border-radius: 5px; /* Rounded corners for input fields */
+            border: 1px solid #ced4da; /* Border color */
+            padding: 10px; /* Padding for input fields */
+            transition: border-color 0.25s; /* Smooth border color transition */
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add shadow on focus */
+        }
+
+        input[type="submit"] {
+            border: none; /* No border for the button */
+            background: #007bff; /* Blue background for button */
+            color: white; /* White text for button */
+            padding: 10px 20px; /* Padding for button */
+            border-radius: 5px; /* Rounded corners for button */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly increase size on hover */
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "quiz/navbar.html" %}
+    <br><br>
+
+    <div class="container">
+        <h3 class='alert alert-success'>Send Us Your Valuable Feedback!</h3>
+
+        <form method="POST" autocomplete="off">
+            <!-- Very Important csrf Token -->
+            {% csrf_token %}
+            <div class="form-group">
+                <h3>{{ form.as_p }}</h3>
+                <input type="submit" value="Send Message" class='btn btn-primary btn-lg'>
+            </div>
+        </form>
+    </div>
+
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

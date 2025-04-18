@@ -1,0 +1,158 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin: 50px auto;
+            max-width: 900px;
+        }
+
+        .result-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: var(--card-background);
+            overflow: hidden;
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .result-title {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table th {
+            background-color: #f8fafc;
+            color: var(--text-primary);
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table td {
+            vertical-align: middle;
+            color: var(--text-secondary);
+        }
+
+        .exam-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .attempt {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .view-report-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-report-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="result-card">
+        <div class="result-header">
+            <h6 class="result-title">
+                <i class="fas fa-chart-line me-2"></i>Exam Results
+            </h6>
+        </div>
+        {% if results %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Exam Name</th>
+                        <th>Total Marks</th>
+                        <th>Attempt</th>
+                        <th>Exam Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in results %}
+                    <tr>
+                        <td class="exam-name">{{ t.exam }}</td>
+                        <td>{{ t.marks }}</td>
+                        <td class="attempt">Attempt {{ forloop.counter }}</td>
+                        <td>{{ t.date }}</td>
+                        <td>
+                            {% if has_report %}
+                            <a href="{% url 'exam-report' course.id %}" class="view-report-btn">
+                                <i class="fas fa-chart-bar"></i>
+                                View Report
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-results">
+            <i class="fas fa-clipboard-list"></i>
+            <h5>No Results Found</h5>
+            <p class="text-muted">You haven't taken any exams yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}

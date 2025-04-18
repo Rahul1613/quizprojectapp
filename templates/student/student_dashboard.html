@@ -1,0 +1,405 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .dashboard-container {
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        min-height: calc(100vh - 80px);
+        background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.95) 100%);
+    }
+
+    .status-window {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .status-window::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(0, 255, 255, 0.1) 30%,
+            transparent 100%
+        );
+        transform: rotate(45deg);
+        animation: holographic 3s linear infinite;
+    }
+
+    @keyframes holographic {
+        0% { transform: translateX(-50%) rotate(45deg); }
+        100% { transform: translateX(50%) rotate(45deg); }
+    }
+
+    .status-title {
+        color: #00ffff;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        position: relative;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        border-color: rgba(0, 255, 255, 0.4);
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-value {
+        color: #00ffff;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        position: relative;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .notifications-section {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 2rem;
+        margin-top: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .notification-title {
+        color: #00ffff;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .view-all-link {
+        color: #00ffff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .view-all-link::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .view-all-link:hover {
+        background: rgba(0, 255, 255, 0.1);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .view-all-link:hover::before {
+        opacity: 1;
+    }
+
+    .notification-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 1rem;
+    }
+
+    .notification-item {
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .notification-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: #00ffff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .notification-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        border-color: rgba(0, 255, 255, 0.4);
+    }
+
+    .notification-exam {
+        color: #00ffff;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .notification-time {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .notification-time i {
+        font-size: 0.8rem;
+    }
+
+    .notification-message {
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .notification-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .notification-list::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+
+    .notification-list::-webkit-scrollbar-thumb {
+        background: rgba(0, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+
+    .notification-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 255, 255, 0.5);
+    }
+
+    .status-indicator {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 10px;
+        height: 10px;
+        background: #00ffff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .unread {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #00ffff;
+        color: #000;
+        padding: 2px 5px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+    }
+
+    .empty-notifications {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+
+        .status-window,
+        .notifications-section {
+            padding: 1.5rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="status-window">
+        <div class="status-indicator"></div>
+        <h2 class="status-title">Student Dashboard</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ total_course }}</div>
+                <div class="stat-label">Total Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ total_question }}</div>
+                <div class="stat-label">Total Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ total_marks }}</div>
+                <div class="stat-label">Total Marks</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notifications-section">
+        <div class="notification-header">
+            <h3 class="notification-title">Recent Notifications</h3>
+            <a href="{% url 'student-notifications' %}" class="view-all-link">View All</a>
+        </div>
+        <div class="notification-list">
+            {% if notifications %}
+                {% for notification in notifications %}
+                <div class="notification-item {% if not notification.is_read %}unread{% endif %}">
+                    <div class="notification-exam">{{ notification.exam_name }}</div>
+                    <div class="notification-time">
+                        <i class="fa fa-clock-o"></i>
+                        {{ notification.exam_date }}
+                    </div>
+                    <div class="notification-message">
+                        {{ notification.message }}
+                    </div>
+                    {% if not notification.is_read %}
+                        <div class="notification-badge">New</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-notifications">
+                    <i class="fa fa-bell-slash"></i>
+                    <p>No new notifications</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add hover effect to stat cards
+        const statCards = document.querySelectorAll('.stat-card');
+        statCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.background = `
+                    radial-gradient(
+                        circle at ${x}px ${y}px,
+                        rgba(0, 255, 255, 0.15),
+                        rgba(0, 0, 0, 0.6) 50%
+                    )
+                `;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'rgba(0, 0, 0, 0.6)';
+            });
+        });
+
+        // Add click animation to notification items
+        const notificationItems = document.querySelectorAll('.notification-item');
+        notificationItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    item.style.transform = 'translateX(5px)';
+                }, 100);
+            });
+        });
+    });
+</script>
+{% endblock %}

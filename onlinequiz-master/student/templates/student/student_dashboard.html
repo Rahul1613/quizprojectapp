@@ -1,0 +1,189 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+  .modern-card {
+    background: linear-gradient(145deg, #1a2433, #0c1220);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 168, 255, 0.1);
+  }
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00a8ff;
+    margin: 10px 0;
+  }
+  .stat-label {
+    color: #ffffff;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  .action-button {
+    background: #00a8ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    display: inline-block;
+    margin-top: 15px;
+  }
+  .action-button:hover {
+    background: #0097e6;
+    text-decoration: none;
+    color: white;
+  }
+  .progress-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#00a8ff calc(var(--progress) * 1%), #1a2433 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    position: relative;
+  }
+  .progress-ring::before {
+    content: attr(data-progress) '%';
+    width: 100px;
+    height: 100px;
+    background: #0c1220;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00a8ff;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+</style>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-4" style="color: #00a8ff;">Welcome, {{ request.user.username }}</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Course Stats -->
+    <div class="col-md-4">
+      <div class="modern-card">
+        <div class="text-center">
+          <i class="fas fa-book fa-3x" style="color: #00a8ff;"></i>
+          <div class="stat-value">{{ total_course }}</div>
+          <div class="stat-label">Available Courses</div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'student-exam' %}" class="action-button">
+            <i class="fas fa-eye"></i> View Courses
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Stats -->
+    <div class="col-md-4">
+      <div class="modern-card">
+        <div class="text-center">
+          <i class="fas fa-question-circle fa-3x" style="color: #00a8ff;"></i>
+          <div class="stat-value">{{ total_question }}</div>
+          <div class="stat-label">Total Questions</div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'student-exam' %}" class="action-button">
+            <i class="fas fa-pencil-alt"></i> Take Quiz
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="col-md-4">
+      <div class="modern-card">
+        <div class="text-center">
+          <i class="fas fa-chart-line fa-3x" style="color: #00a8ff;"></i>
+          <div class="progress-ring" style="--progress: 85" data-progress="85"></div>
+          <div class="stat-label">Your Progress</div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'student-marks' %}" class="action-button">
+            <i class="fas fa-chart-bar"></i> View Results
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="modern-card">
+        <h4 class="mb-4" style="color: #00a8ff;">Recent Activity</h4>
+        <div class="table-responsive">
+          <table class="table table-hover" style="color: #ffffff;">
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Date</th>
+                <th>Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for result in recent_results %}
+              <tr>
+                <td>{{ result.exam.course_name }}</td>
+                <td>{{ result.date }}</td>
+                <td>{{ result.marks }}</td>
+                <td>
+                  {% if result.marks >= result.exam.total_marks|multiply:0.4 %}
+                    <span class="badge badge-success">Passed</span>
+                  {% else %}
+                    <span class="badge badge-danger">Failed</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" class="text-center">No recent activity</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth animations for cards
+    const cards = document.querySelectorAll('.modern-card');
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+    });
+
+    setTimeout(() => {
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }, 100);
+});
+</script>
+{% endblock content %}

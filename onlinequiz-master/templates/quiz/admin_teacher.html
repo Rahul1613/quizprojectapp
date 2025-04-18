@@ -1,0 +1,141 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <style type="text/css">
+        /* General Styles */
+        body {
+            background-color: #f7f9fc; /* Light gray background for contrast */
+            font-family: 'Arial', sans-serif; /* Modern font */
+            color: #333; /* Dark text for better readability */
+        }
+
+        a {
+            text-decoration: none; /* Remove underline from links */
+            color: white; /* White text for links */
+        }
+
+        /* Card Styles */
+        .order-card {
+            color: #ffffff; /* White text for cards */
+            border-radius: 10px; /* Rounded corners */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+        }
+
+        .bg-c-blue {
+            background: #007bff; /* Bootstrap primary color */
+        }
+
+        .bg-c-green {
+            background: #28a745; /* Bootstrap success color */
+        }
+
+        .bg-c-yellow {
+            background: #ffc107; /* Bootstrap warning color */
+        }
+
+        .bg-c-pink {
+            background: #dc3545; /* Bootstrap danger color */
+        }
+
+        .card {
+            border: none; /* Remove default border */
+            margin-bottom: 30px; /* Space below each card */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition effects */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        .card-block {
+            padding: 25px; /* Increased padding for a spacious look */
+            text-align: center; /* Center content */
+        }
+
+        .order-card i {
+            font-size: 40px; /* Increased icon size */
+            margin-bottom: 15px; /* Space below icons */
+        }
+
+        .order-card h6 {
+            font-size: 18px; /* Font size for headings */
+            margin-bottom: 10px; /* Space below headings */
+        }
+
+        .order-card h2 {
+            font-size: 28px; /* Font size for numbers */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .order-card i {
+                font-size: 30px; /* Smaller icons on mobile */
+            }
+
+            .order-card h2 {
+                font-size: 22px; /* Smaller font size on mobile */
+            }
+
+            .order-card h6 {
+                font-size: 16px; /* Smaller font size on mobile */
+            }
+        }
+
+        header {
+            left: 0px;
+            right: 0px;
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6><a href="admin-view-teacher" style="color:white;">Total Teacher</a></h6>
+                    <h2><i class="fas fa-chalkboard-teacher f-left"></i><span>{{total_teacher}}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6><a href="admin-view-pending-teacher" style="color:white;">Total Pending Teacher</a></h6>
+                    <h2><i class="fas fa-spinner f-left"></i><span>{{pending_teacher}}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6><a href="admin-view-teacher-salary" style="color:white;">Total Teacher Salary</a></h6>
+                    <h2><i class="fas fa-rupee-sign f-left"></i><span>{{salary}}</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+{% endblock content %}

@@ -1,0 +1,63 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Upload MCQ Questions</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.course.label_tag }}
+                            {{ form.course }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.csv_file.label_tag }}
+                            {{ form.csv_file }}
+                            <small class="form-text text-muted">{{ form.csv_file.help_text }}</small>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Upload Questions</button>
+                            <a href="{% url 'student-exam' %}" class="btn btn-secondary ml-2">Back to Exams</a>
+                        </div>
+                    </form>
+
+                    <div class="mt-4">
+                        <h5>CSV File Format:</h5>
+                        <p>Your CSV file should have the following columns:</p>
+                        <ul>
+                            <li>question - The question text</li>
+                            <li>option1 - First option</li>
+                            <li>option2 - Second option</li>
+                            <li>option3 - Third option</li>
+                            <li>option4 - Fourth option</li>
+                            <li>answer - Correct answer (must be one of: Option1, Option2, Option3, Option4)</li>
+                        </ul>
+                        <p>Example:</p>
+                        <pre class="bg-light p-2">
+question,option1,option2,option3,option4,answer
+What is 2+2?,1,2,3,4,Option4
+What is the capital of France?,London,Berlin,Paris,Madrid,Option3</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

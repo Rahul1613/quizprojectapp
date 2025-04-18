@@ -1,0 +1,354 @@
+{% extends 'teacher/teacherbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #818cf8;
+            --accent-color: #6366f1;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+        }
+
+        .upload-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: var(--card-background);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .upload-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-upload {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-upload::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-upload:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .format-section {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .example-code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .example-code::before {
+            content: 'CSV Example';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            position: relative;
+        }
+
+        .tip-box::before {
+            content: '💡';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 1.5rem;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .list-group-item {
+            border: none;
+            background: #f8fafc;
+            margin-bottom: 0.5rem;
+            border-radius: 8px !important;
+            transition: all 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #f8fafc;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card upload-card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-file-csv me-2"></i>Upload Questions via CSV
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    {% if messages %}
+                    <div class="messages mb-4">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" class="mb-4">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label class="form-label">Select Course</label>
+                            {{ form.course }}
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Choose CSV File</label>
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <h5>Drag & Drop your CSV file here</h5>
+                                <p class="text-muted">or</p>
+                                {{ form.csv_file }}
+                            </div>
+                            <div class="form-text mt-2">Supported format: CSV file with questions and options</div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary btn-upload">
+                                <i class="fas fa-upload me-2"></i>Upload Questions
+                            </button>
+                            <a href="{% url 'teacher-view-question' %}" class="btn btn-secondary btn-upload">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Questions
+                            </a>
+                        </div>
+                    </form>
+
+                    <div class="format-section">
+                        <h5 class="mb-4">
+                            <i class="fas fa-info-circle me-2"></i>CSV File Format Guide
+                        </h5>
+                        <p class="mb-4">Your CSV file should have the following columns:</p>
+                        <ul class="list-group mb-4">
+                            <li class="list-group-item">
+                                <i class="fas fa-question-circle me-2 text-primary"></i>
+                                <strong>question</strong> - The question text
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-list me-2 text-primary"></i>
+                                <strong>option1</strong> - First option
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-list me-2 text-primary"></i>
+                                <strong>option2</strong> - Second option
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-list me-2 text-primary"></i>
+                                <strong>option3</strong> - Third option
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-list me-2 text-primary"></i>
+                                <strong>option4</strong> - Fourth option
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle me-2 text-primary"></i>
+                                <strong>answer</strong> - Correct answer (Option1, Option2, Option3, or Option4)
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-star me-2 text-primary"></i>
+                                <strong>marks</strong> - Number of marks (integer)
+                            </li>
+                        </ul>
+
+                        <h6 class="mt-4 mb-3">Example Format:</h6>
+                        <div class="example-code">
+question,option1,option2,option3,option4,answer,marks
+"What is 2+2?",1,2,3,4,Option4,2
+"What is the capital of France?",London,Berlin,Paris,Madrid,Option3,1</div>
+
+                        <div class="tip-box">
+                            <h6 class="mb-3">
+                                <i class="fas fa-lightbulb me-2"></i>Important Tips
+                            </h6>
+                            <ul class="mb-0">
+                                <li>Use commas (,) as separators</li>
+                                <li>Enclose text containing commas in quotes ("")</li>
+                                <li>Answer must exactly match: Option1, Option2, Option3, or Option4</li>
+                                <li>Marks should be positive integers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Add drag and drop functionality
+    const uploadArea = document.querySelector('.upload-area');
+    const fileInput = document.querySelector('input[type="file"]');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        uploadArea.classList.add('border-primary');
+        uploadArea.style.background = '#f8fafc';
+    }
+
+    function unhighlight(e) {
+        uploadArea.classList.remove('border-primary');
+        uploadArea.style.background = '';
+    }
+
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+    }
+</script>
+{% endblock content %}

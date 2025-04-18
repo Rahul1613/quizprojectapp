@@ -1,0 +1,108 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Exam Results{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="futuristic-card p-8 mb-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-4">Exam Results</h1>
+            <div class="inline-flex items-center justify-center space-x-4">
+                <div class="text-xl">
+                    Total Marks: <span class="font-bold text-primary-color">{{ total_marks }}</span>
+                </div>
+                <div class="text-xl">
+                    Your Score: <span class="font-bold text-primary-color">{{ marks }}</span>
+                </div>
+                <div class="text-xl">
+                    Percentage: <span class="font-bold {% if passed %}text-green-500{% else %}text-red-500{% endif %}">
+                        {{ percentage|floatformat:1 }}%
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                {% if passed %}
+                <div class="text-2xl text-green-500 font-bold">
+                    🎉 Congratulations! You've Passed! 🎉
+                </div>
+                {% else %}
+                <div class="text-2xl text-red-500 font-bold">
+                    Keep practicing! You can do better next time.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if correct_answers %}
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-green-500">Correct Answers ({{ correct_answers|length }})</h2>
+            <div class="space-y-4">
+                {% for answer in correct_answers %}
+                <div class="futuristic-card p-4 border-l-4 border-green-500">
+                    <div class="font-semibold mb-2">{{ answer.question }}</div>
+                    <div class="text-green-400">Your answer: {{ answer.submitted }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if wrong_answers %}
+        <div>
+            <h2 class="text-2xl font-bold mb-4 text-red-500">Incorrect Answers ({{ wrong_answers|length }})</h2>
+            <div class="space-y-4">
+                {% for answer in wrong_answers %}
+                <div class="futuristic-card p-4 border-l-4 border-red-500">
+                    <div class="font-semibold mb-2">{{ answer.question }}</div>
+                    <div class="text-red-400">Your answer: {{ answer.submitted }}</div>
+                    <div class="text-green-400">Correct answer: {{ answer.correct }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="flex justify-center mt-8 space-x-4">
+            <a href="{% url 'student-dashboard' %}" class="btn-primary">
+                Back to Dashboard
+            </a>
+            <a href="{% url 'student-view-courses' %}" class="btn-primary">
+                Take Another Exam
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if passed %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Celebration animation
+    const colors = ['#00a8ff', '#0097e6', '#00d2d3', '#54a0ff'];
+    const duration = 15 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 2,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors
+        });
+        confetti({
+            particleCount: 2,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }());
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+{% endif %}
+{% endblock %}

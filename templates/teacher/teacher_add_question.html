@@ -1,0 +1,113 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f7f9fc; /* Light background color */
+            font-family: 'Arial', sans-serif; /* Clean font */
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff; /* Bootstrap primary color */
+            margin-top: 50px; /* Space above the heading */
+            font-size: 2.5em; /* Larger font size */
+            font-weight: bold; /* Bold text */
+        }
+
+        form {
+            margin: 50px auto; /* Center the form */
+            padding: 30px; /* Padding for form area */
+            background-color: white; /* White background for form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            max-width: 600px; /* Max width for the form */
+        }
+
+        .form-group label {
+            font-weight: bold; /* Bold labels */
+            color: #333; /* Darker color for labels */
+        }
+
+        .form-control {
+            border-radius: 5px; /* Rounded input fields */
+            box-shadow: none; /* No shadow on input */
+            transition: border-color 0.3s; /* Smooth border color transition */
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Bootstrap primary color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Light shadow on focus */
+        }
+
+        button {
+            width: 100%; /* Full-width button */
+            padding: 10px; /* Padding for the button */
+            font-size: 1.2em; /* Larger button text */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em; /* Smaller font size on mobile */
+            }
+        }
+    </style>
+</head>
+
+<h2>ADD QUESTION</h2>
+
+<form method="POST" autocomplete="off">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="course">Course</label>
+        {% render_field questionForm.courseID|attr:'required:true' class="form-control" %}
+        <br>
+
+        <label for="question">Question</label>
+        {% render_field questionForm.question|attr:'required:true' class="form-control" placeholder="What is the currency of India ?" %}
+        <br>
+
+        <label for="marks">Marks</label>
+        {% render_field questionForm.marks|attr:'required:true' class="form-control" placeholder="10" %}
+        <br>
+
+        <label for="option1">Option 1</label>
+        {% render_field questionForm.option1|attr:'required:true' class="form-control" placeholder="Rupees" %}
+        <br>
+
+        <label for="option2">Option 2</label>
+        {% render_field questionForm.option2|attr:'required:true' class="form-control" placeholder="Dollar" %}
+        <br>
+
+        <label for="option3">Option 3</label>
+        {% render_field questionForm.option3|attr:'required:true' class="form-control" placeholder="Taka" %}
+        <br>
+
+        <label for="option4">Option 4</label>
+        {% render_field questionForm.option4|attr:'required:true' class="form-control" placeholder="Euro" %}
+        <br>
+
+        <label for="answer">Answer</label>
+        {% render_field questionForm.answer|attr:'required:true' class="form-control" %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">ADD</button>
+</form>
+
+<br><br><br>
+{% endblock content %}

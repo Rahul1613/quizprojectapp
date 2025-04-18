@@ -1,0 +1,132 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <style type="text/css">
+        /* Global Styles */
+        body {
+            background-color: #f7f9fc; /* Light background for contrast */
+            font-family: 'Arial', sans-serif; /* Clean font */
+            color: #333; /* Dark text for readability */
+            padding: 30px; /* General padding */
+        }
+
+        a {
+            text-decoration: none; /* Remove underline */
+            color: white; /* Link color */
+            transition: color 0.3s; /* Smooth color transition */
+        }
+
+        a:hover {
+            color: #ffd700; /* Gold color on hover */
+        }
+
+        .order-card {
+            color: rgb(255, 255, 255); /* White text for cards */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .bg-c-green {
+            background: #28a745; /* Bootstrap success color */
+        }
+
+        .bg-c-yellow {
+            background: #f6c23e; /* Bootstrap warning color */
+        }
+
+        .bg-c-pink {
+            background: #e83e8c; /* Bootstrap danger color */
+        }
+
+        .card {
+            border: none; /* No border */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+        }
+
+        .card .card-block {
+            padding: 30px; /* Increased padding for spacious look */
+        }
+
+        .order-card i {
+            font-size: 36px; /* Increased icon size */
+        }
+
+        .f-left {
+            float: left;
+        }
+
+        .f-right {
+            float: right;
+        }
+
+        header {
+            left: 0px;
+            right: 0px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 20px; /* Reduce margin on small screens */
+            }
+
+            .order-card i {
+                font-size: 28px; /* Adjust icon size on small screens */
+            }
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Total Students</h6>
+                    <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span>{{ total_student }}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Total Exams</h6>
+                    <h2 class="text-right"><i class="fas fa-book f-left"></i><span>{{ total_course }}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-4">
+            <div class="card bg-c-pink order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Total Questions</h6>
+                    <h2 class="text-right"><i class="fas fa-question-circle f-left"></i><span>{{ total_question }}</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+{% endblock content %}

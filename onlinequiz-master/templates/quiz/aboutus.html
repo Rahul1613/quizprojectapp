@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    
+    <style media="screen">
+        body {
+            background-color: #000000; /* Light background color for better contrast */
+            display: flex; /* Flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            min-height: 100vh; /* Full height for the body */
+        }
+
+        .jumbotron {
+            margin-top: 20px; /* Space above the jumbotron */
+            margin-bottom: 0; /* No space below the jumbotron */
+            background-color: #007bff; /* Primary color for the jumbotron */
+            color: #000000; /* White text for better readability */
+            border-radius: 10px; /* Rounded corners */
+            padding: 40px; /* Added padding for spacious look */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+            flex-grow: 1; /* Allow jumbotron to expand and fill space */
+        }
+
+        .jumbotron h1 {
+            text-align: center;
+            font-size: 2.5rem; /* Larger font size for the heading */
+            font-weight: bold; /* Bold font for emphasis */
+        }
+
+        .alert {
+            margin: 0; /* Remove default margin */
+            background-color: #28a745; /* Success color for the alert */
+            color: rgb(0, 0, 0); /* White text for better readability */
+            border-radius: 5px; /* Slightly rounded corners */
+            padding: 10px 15px; /* Padding for the alert box */
+            text-align: center; /* Center-align text in alert */
+        }
+
+        .lead {
+            font-size: 1.25rem; /* Slightly larger text for lead paragraphs */
+            text-align: center; /* Center-align text for better aesthetics */
+            margin: 20px 0; /* Margin for spacing */
+        }
+
+        .btn-primary {
+            background-color: #0056b3; /* Darker shade for primary button */
+            border-color: #0056b3; /* Same border color */
+        }
+
+        .btn-primary:hover {
+            background-color: #004494; /* Darker shade on hover */
+            border-color: #004494; /* Darker border on hover */
+        }
+
+        /* Footer styles to ensure it remains at the bottom */
+        footer {
+            background-color: #212529; /* Dark background for footer */
+            color: #000000; /* White text in footer */
+            padding: 10px 0; /* Padding for the footer */
+            text-align: center; /* Center-align footer text */
+        }
+    </style>
+
+    <title>About Us</title>
+</head>
+
+<body>
+
+    {% include "quiz/navbar.html" %}
+    
+    <div class="container">
+        <br><br>
+        <center>
+            <h3 class='alert' style="margin-bottom: 0px;">About Us!</h3>
+        </center>
+        <div class="jumbotron">
+            <p class="lead">We provide a platform for students to practice questions. <br> Teachers can add courses/exams to the system and questions to those courses.</p>
+            <hr class="my-4">
+            <p>Explore.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
+            </p>
+        </div>
+    </div>
+
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

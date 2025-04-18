@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .jumbotron {
+            background: linear-gradient(to right, #007bff, #6f42c1); /* Gradient background */
+            color: #ffffff; /* White text */
+            padding: 100px 0; /* Padding for top and bottom */
+            margin-bottom: 0; /* Remove default margin */
+            text-align: center; /* Center align text */
+        }
+
+        .jumbotron h1 {
+            font-size: 3rem; /* Large title */
+            font-weight: bold; /* Bold title */
+        }
+
+        .jumbotron p {
+            font-size: 1.25rem; /* Medium size for text */
+            margin: 20px 0; /* Margin for spacing */
+        }
+
+        .btn-info {
+            background-color: #28a745; /* Green background */
+            border: none; /* No border */
+            border-radius: 30px; /* Rounded corners */
+            padding: 10px 30px; /* Padding for button */
+            font-size: 1.2rem; /* Larger font size for button */
+            transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+        }
+
+        .btn-info:hover {
+            background-color: #218838; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly larger on hover */
+        }
+
+        /* Responsive design */
+        @media (max-width: 576px) {
+            .jumbotron h1 {
+                font-size: 2.5rem; /* Adjust size for mobile */
+            }
+
+            .jumbotron p {
+                font-size: 1rem; /* Adjust size for mobile */
+            }
+
+            .btn-info {
+                font-size: 1rem; /* Adjust button size for mobile */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "quiz/navbar.html" %}
+    <br>
+    <section id="section-jumbotron" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center">
+        <div class="container text-center">
+            <h1 class="display-1">Online Test Tool</h1>
+            <p class="display-4 d-none d-sm-block">Start Your Test</p>
+            <p class="lead">We organize quizzes on various languages.</p>
+            <p class="lead">Sign up</p>
+            <p><strong>Start Your Journey Here:</strong></p>
+            <a href="/student/studentsignup" class="btn btn-lg btn-info"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+            <br><br><br>
+        </div>
+    </section>
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

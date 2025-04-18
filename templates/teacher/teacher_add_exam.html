@@ -1,0 +1,262 @@
+{% extends 'teacher/teacherbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<style>
+    .exam-form-container {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .exam-form-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(0, 255, 255, 0.1) 30%,
+            transparent 100%
+        );
+        transform: rotate(45deg);
+        animation: holographic 3s linear infinite;
+    }
+
+    @keyframes holographic {
+        0% { transform: translateX(-50%) rotate(45deg); }
+        100% { transform: translateX(50%) rotate(45deg); }
+    }
+
+    .form-title {
+        color: #00ffff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        position: relative;
+    }
+
+    .form-section {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(0, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+        border-color: rgba(0, 255, 255, 0.3);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .form-label {
+        color: #00ffff;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .form-control {
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        color: #fff;
+        padding: 0.75rem;
+        border-radius: 5px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #00ffff;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    .form-control:focus + .form-label {
+        transform: translateY(-2px);
+        color: #00ffff;
+    }
+
+    .btn-submit {
+        background: rgba(0, 255, 255, 0.1);
+        color: #00ffff;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        padding: 1rem 2rem;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background: rgba(0, 255, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .btn-submit:hover::before {
+        opacity: 1;
+    }
+
+    .required-field::after {
+        content: '*';
+        color: #00ffff;
+        margin-left: 5px;
+        text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    }
+
+    .form-control:invalid {
+        border-color: rgba(255, 0, 0, 0.5);
+    }
+
+    .form-control:invalid:focus {
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .exam-form-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    .status-indicator {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 10px;
+        height: 10px;
+        background: #00ffff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+</style>
+
+<div class="exam-form-container">
+    <div class="status-indicator"></div>
+    <h2 class="form-title">Schedule New Exam</h2>
+    <form method="post" id="examForm">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <div class="form-group">
+                <label class="form-label required-field">Exam Name</label>
+                {% render_field courseForm.course_name class="form-control" placeholder="Enter exam name" %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required-field">Total Questions</label>
+                {% render_field courseForm.question_number class="form-control" placeholder="Enter number of questions" type="number" min="1" %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required-field">Total Marks</label>
+                {% render_field courseForm.total_marks class="form-control" placeholder="Enter total marks" type="number" min="1" %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required-field">Exam Date & Time</label>
+                <input type="datetime-local" name="exam_date" class="form-control" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Schedule Exam
+        </button>
+    </form>
+</div>
+
+<script>
+    const dateInput = document.querySelector('input[type="datetime-local"]');
+    const today = new Date();
+    const minDate = today.toISOString().slice(0, 16);
+    dateInput.min = minDate;
+
+    const form = document.getElementById('examForm');
+    const formContainer = document.querySelector('.exam-form-container');
+
+    form.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = formContainer.getBoundingClientRect();
+        const x = (e.clientX - left) / width;
+        const y = (e.clientY - top) / height;
+        
+        const glowX = x * 100;
+        const glowY = y * 100;
+        
+        formContainer.style.background = `
+            radial-gradient(
+                circle at ${glowX}% ${glowY}%,
+                rgba(0, 255, 255, 0.15),
+                rgba(0, 0, 0, 0.8) 50%
+            )
+        `;
+    });
+
+    form.addEventListener('mouseleave', () => {
+        formContainer.style.background = 'rgba(0, 0, 0, 0.8)';
+    });
+
+    // Add floating label effect
+    const formControls = document.querySelectorAll('.form-control');
+    formControls.forEach(control => {
+        control.addEventListener('focus', () => {
+            control.parentElement.classList.add('focused');
+        });
+        control.addEventListener('blur', () => {
+            if (!control.value) {
+                control.parentElement.classList.remove('focused');
+            }
+        });
+    });
+</script>
+{% endblock %}

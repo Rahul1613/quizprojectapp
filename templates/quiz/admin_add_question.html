@@ -1,0 +1,103 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #f2f2f2; /* Light background for better contrast */
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff; /* Bootstrap primary color */
+            margin-bottom: 30px; /* Spacing below the heading */
+            font-size: 2.5rem; /* Larger font size for emphasis */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Spacing between form fields */
+        }
+
+        .form-control {
+            border-radius: 5px; /* Rounded corners for inputs */
+            border: 1px solid #ced4da; /* Light border color */
+            transition: border-color 0.3s ease; /* Smooth border transition */
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Blue border on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Glow effect on focus */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Bootstrap primary color */
+            border-color: #007bff; /* Match border color */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for the button */
+            font-size: 1.2rem; /* Larger font size for the button */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            border-color: #0056b3; /* Darker border on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2rem; /* Smaller font size on smaller screens */
+            }
+
+            .btn-primary {
+                width: 100%; /* Full-width button on mobile */
+            }
+        }
+    </style>
+</head>
+
+<h2>ADD QUESTION</h2>
+<form method="POST" autocomplete="off" style="max-width: 600px; margin: 0 auto;">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="courseID">Course</label>
+        {% render_field questionForm.courseID|attr:'required:true' class="form-control" %}
+        <br>
+
+        <label for="question">Question</label>
+        {% render_field questionForm.question|attr:'required:true' class="form-control" placeholder="What is the currency of India?" %}
+        <br>
+
+        <label for="marks">Marks</label>
+        {% render_field questionForm.marks|attr:'required:true' class="form-control" placeholder="10" %}
+        <br>
+
+        <label for="option1">Option 1</label>
+        {% render_field questionForm.option1|attr:'required:true' class="form-control" placeholder="Rupees" %}
+        <br>
+
+        <label for="option2">Option 2</label>
+        {% render_field questionForm.option2|attr:'required:true' class="form-control" placeholder="Dollar" %}
+        <br>
+
+        <label for="option3">Option 3</label>
+        {% render_field questionForm.option3|attr:'required:true' class="form-control" placeholder="Taka" %}
+        <br>
+
+        <label for="option4">Option 4</label>
+        {% render_field questionForm.option4|attr:'required:true' class="form-control" placeholder="Euro" %}
+        <br>
+
+        <label for="answer">Answer</label>
+        {% render_field questionForm.answer|attr:'required:true' class="form-control" %}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">ADD</button>
+</form>
+<br><br><br>
+{% endblock content %}

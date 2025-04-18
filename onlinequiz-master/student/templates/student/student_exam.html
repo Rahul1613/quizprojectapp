@@ -1,0 +1,203 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+<style>
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .course-card {
+    background: linear-gradient(145deg, #1a2433, #0c1220);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 168, 255, 0.1);
+  }
+  
+  .course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #00a8ff;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .course-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .course-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  .course-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #a0aec0;
+  }
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .course-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+  
+  .status-pending {
+    background: rgba(255, 170, 0, 0.2);
+    color: #ffaa00;
+  }
+  
+  .status-completed {
+    background: rgba(0, 200, 81, 0.2);
+    color: #00c851;
+  }
+  
+  .status-failed {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+  }
+  
+  .action-button {
+    background: #00a8ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+  
+  .action-button:hover {
+    background: #0097e6;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+  }
+  
+  .action-button.disabled {
+    background: #4a5568;
+    cursor: not-allowed;
+  }
+  
+  .score-display {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .score-passed {
+    color: #00c851;
+  }
+  
+  .score-failed {
+    color: #ff0000;
+  }
+  
+  .csv-upload-btn {
+    background: #00a8ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  .csv-upload-btn:hover {
+    background: #0097e6;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+  }
+</style>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-3xl font-bold text-white">Available Exams</h2>
+    <a href="{% url 'upload-csv' %}" class="csv-upload-btn">
+      <i class="fas fa-file-csv"></i> Upload MCQ Questions
+    </a>
+  </div>
+  
+  <div class="course-grid">
+    {% for course in courses %}
+    <div class="course-card">
+      <div class="course-name">{{ course.course_name }}</div>
+      
+      <div class="course-stats">
+        <div class="stat-item">
+          <i class="fas fa-question-circle"></i>
+          <span>{{ course.question_number }} Questions</span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-star"></i>
+          <span>{{ course.total_marks }} Marks</span>
+        </div>
+      </div>
+      
+      {% if course.completed %}
+        {% if course.passed %}
+          <div class="course-status status-completed">
+            <i class="fas fa-check-circle"></i> Completed
+          </div>
+          <div class="score-display score-passed">
+            Score: {{ course.score }}/{{ course.total_marks }}
+          </div>
+        {% else %}
+          <div class="course-status status-failed">
+            <i class="fas fa-times-circle"></i> Failed
+          </div>
+          <div class="score-display score-failed">
+            Score: {{ course.score }}/{{ course.total_marks }}
+          </div>
+        {% endif %}
+        
+        <a href="{% url 'check-marks' course.id %}" class="action-button">
+          <i class="fas fa-chart-bar"></i> View Details
+        </a>
+      {% else %}
+        <div class="course-status status-pending">
+          <i class="fas fa-clock"></i> Not Attempted
+        </div>
+        <a href="{% url 'take-exam' course.id %}" class="action-button">
+          <i class="fas fa-play"></i> Start Exam
+        </a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="text-center text-gray-400">
+      <i class="fas fa-info-circle fa-3x mb-3"></i>
+      <p>No exams available at the moment.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style media="screen">
+        body {
+            background-color: #000000; /* Light background for a clean look */
+            font-family: 'Arial', sans-serif; /* Modern font */
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default padding */
+            display: flex; /* Use flexbox for centering */
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            min-height: 100vh; /* Full height for body */
+        }
+
+        .jumbotron {
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #000000; /* White text for contrast */
+            padding: 40px 20px; /* Increased padding for a spacious feel */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* More pronounced shadow effect */
+            margin: 20px; /* Margin around jumbotron */
+            max-width: 600px; /* Maximum width */
+            text-align: center; /* Center text */
+            transition: transform 0.3s; /* Smooth hover effect */
+        }
+
+        .jumbotron:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .jumbotron h1 {
+            font-size: 2.5rem; /* Larger font size */
+            margin-bottom: 20px; /* Space below the heading */
+            color: #ffcc00; /* Yellow text color for heading */
+        }
+
+        .jumbotron p {
+            font-size: 1.2rem; /* Slightly larger text for readability */
+            margin-bottom: 20px; /* Space below paragraphs */
+            color: #000000; /* White text for paragraphs */
+        }
+
+        .btn {
+            background-color: #28a745; /* Green button color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 12px 25px; /* Increased padding for button */
+            font-size: 1.1rem; /* Slightly larger button text */
+            color: rgb(0, 0, 0); /* White text for button */
+            transition: background 0.3s, transform 0.2s; /* Smooth transition for hover effect */
+            margin: 10px; /* Space between buttons */
+            text-decoration: none; /* Remove underline from links */
+            display: inline-block; /* Ensure buttons are inline */
+        }
+
+        .btn:hover {
+            background-color: #218838; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            cursor: pointer; /* Change cursor on hover */
+        }
+
+        footer {
+            background-color: #22242A; /* Dark footer */
+            color: #000000; /* White text in footer */
+            text-align: center; /* Centered footer text */
+            padding: 15px 0; /* Padding for footer */
+            position: relative; /* Allow footer to sit below content */
+            bottom: 0;
+            width: 100%; /* Full width for footer */
+            margin-top: auto; /* Push footer to bottom */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .jumbotron {
+                padding: 30px 15px; /* Adjust padding for smaller screens */
+                max-width: 90%; /* Max width adjustment for small screens */
+            }
+
+            .jumbotron h1 {
+                font-size: 2rem; /* Adjust heading size */
+            }
+
+            .btn {
+                padding: 10px 20px; /* Adjust button padding */
+            }
+        }
+    </style>
+
+    <title>Welcome to Online Quiz</title>
+</head>
+
+<body>
+
+    {% include "quiz/navbar.html" %}
+    
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, Student</h1>
+        <p class="lead">Welcome to Online Quiz</p>
+        <hr class="my-4" style="border-color: #000000; width: 50%; margin: auto;"> <!-- Styled horizontal rule -->
+        <p>You can access various features after Login.</p>
+        <p class="lead">
+            <a class="btn" href="studentsignup" role="button">Create Your Account</a>
+            <a class="btn" href="studentlogin" role="button">Login</a>
+        </p>
+    </div>
+
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f0f4f8; /* Light background color for contrast */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+            color: #333; /* Dark text color */
+            padding: 20px; /* Padding around the content */
+        }
+
+        a:link, a:visited {
+            text-decoration: none; /* Remove underline */
+            color: white; /* Default link color */
+            transition: color 0.3s; /* Smooth color transition */
+        }
+
+        a:hover {
+            color: #ffdd57; /* Color change on hover */
+        }
+
+        .card {
+            border-radius: 10px; /* Rounded corners */
+            -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s; /* Smooth scaling on hover */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Slightly enlarge card on hover */
+        }
+
+        .order-card {
+            color: rgb(255, 255, 255); /* White text for cards */
+        }
+
+        .bg-c-blue {
+            background: #04868f; /* Card background color */
+        }
+
+        .bg-c-green {
+            background: #4C51BF; /* Card background color */
+        }
+
+        .card-block {
+            padding: 30px; /* Increased padding for a spacious look */
+        }
+
+        .order-card i {
+            font-size: 36px; /* Increased icon size */
+        }
+
+        .f-left {
+            float: left;
+        }
+
+        .f-right {
+            float: right;
+        }
+
+        header {
+            left: 0px;
+            right: 0px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 20px; /* Reduce margin on small screens */
+            }
+
+            .order-card i {
+                font-size: 28px; /* Adjust icon size on small screens */
+            }
+        }
+    </style>
+</head>
+
+<br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-xl-6">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20"> <a href="teacher-add-question">Add Question</a> </h6>
+                    <h2 class="text-right"><i class="fas fa-plus f-left"></i></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-6">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20"><a href="teacher-view-question">View Questions</a> </h6>
+                    <h2 class="text-right"><i class="fas fa-eye f-left"></i></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+{% endblock content %}

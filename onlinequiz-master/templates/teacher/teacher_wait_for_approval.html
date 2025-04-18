@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            font-family: 'Arial', sans-serif; /* Clean font */
+        }
+
+        .jumbotron {
+            background-color: #007bff; /* Primary color for jumbotron */
+            color: white; /* White text */
+            border-radius: 15px; /* Rounded corners */
+            padding: 40px; /* Padding for the jumbotron */
+            margin-top: 50px; /* Space above the jumbotron */
+            text-align: center; /* Center text */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        .jumbotron h1 {
+            font-size: 2.5em; /* Larger font size for heading */
+            margin-bottom: 20px; /* Space below heading */
+        }
+
+        .jumbotron p {
+            font-size: 1.2em; /* Slightly larger font size for paragraph */
+        }
+
+        .btn-primary {
+            background-color: #0056b3; /* Darker blue for button */
+            border-color: #0056b3; /* Match border color */
+        }
+
+        .btn-primary:hover {
+            background-color: #004494; /* Darker on hover */
+            border-color: #004494; /* Match border color on hover */
+        }
+
+        .footer {
+            text-align: center; /* Center footer text */
+            padding: 20px; /* Padding for footer */
+            background-color: #343a40; /* Dark footer background */
+            color: white; /* White text for footer */
+            position: relative; /* Position relative for footer */
+            bottom: 0; /* Align to the bottom */
+            width: 100%; /* Full width */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .jumbotron h1 {
+                font-size: 2em; /* Smaller font size on mobile */
+            }
+            .jumbotron p {
+                font-size: 1em; /* Smaller paragraph font size on mobile */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "quiz/navbar.html" %}
+
+    <div class="jumbotron">
+        <h1 class="display-4">Hello {{request.user.first_name}}</h1>
+        <p class="lead">Your account is not approved yet.<br>Our team is checking your profile.<br>Soon your account will be approved.</p>
+        <hr class="my-4">
+        <p>Check back later.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/logout" role="button">Logout For Now</a>
+        </p>
+    </div>
+
+    {% include "quiz/footer.html" %}
+</body>
+</html>

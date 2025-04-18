@@ -1,0 +1,112 @@
+{% extends 'quiz/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <style media="screen">
+        body {
+            background-color: #f4f7fa; /* Light background for better contrast */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+        }
+
+        .container {
+            margin: 50px auto; /* Center the container */
+            max-width: 800px; /* Maximum width of the container */
+        }
+
+        .panel {
+            border: none; /* Remove border */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+        }
+
+        .panel-heading {
+            background-color: #007bff; /* Primary color */
+            color: white; /* White text */
+            border-radius: 8px 8px 0 0; /* Rounded top corners */
+            padding: 15px; /* Padding for heading */
+            text-align: center; /* Centered text */
+        }
+
+        .panel-title {
+            margin: 0; /* Remove default margin */
+            font-size: 1.5em; /* Larger font size */
+        }
+
+        table {
+            width: 100%; /* Full width table */
+            border-collapse: collapse; /* Collapse borders */
+            margin-top: 20px; /* Margin for spacing */
+        }
+
+        th, td {
+            padding: 15px; /* Padding for cells */
+            text-align: left; /* Left align text */
+            border-bottom: 1px solid #ddd; /* Light border below cells */
+        }
+
+        th {
+            background-color: #f8f9fa; /* Light background for header */
+            font-weight: bold; /* Bold font for header */
+            color: #343a40; /* Darker text color */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1; /* Light grey on hover */
+        }
+
+        .btn {
+            margin: 0; /* Remove margin */
+            border-radius: 4px; /* Rounded corners */
+        }
+
+        .btn-xs {
+            padding: 5px 10px; /* Smaller button padding */
+        }
+
+        .glyphicon-trash {
+            color: #dc3545; /* Danger color for delete icon */
+        }
+
+        .glyphicon-trash:hover {
+            color: #a71c1c; /* Darker color on hover */
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h6 class="panel-title">Questions</h6>
+        </div>
+        <table class="table table-hover" id="dev-table">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Marks</th>
+                    <th>Delete Question</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in questions %}
+                <tr>
+                    <td>{{ c.question }}</td>
+                    <td>{{ c.marks }}</td>
+                    <td>
+                        <a class="btn btn-danger btn-xs" href="{% url 'delete-question' c.id %}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br><br><br><br><br><br>
+{% endblock content %}

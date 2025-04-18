@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #c2e9fb); /* Soft gradient background */
+            color: #333; /* Dark text for contrast */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .jumbotron {
+            background: rgba(255, 255, 255, 0.9); /* Lighter semi-transparent background */
+            backdrop-filter: blur(5px); /* Subtle blur effect */
+            color: #333; /* Dark text */
+            padding: 80px 0; /* Padding for top and bottom */
+            margin-bottom: 0; /* Remove default margin */
+            text-align: center; /* Center align text */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
+        }
+
+        .jumbotron h1 {
+            font-size: 4rem; /* Large title */
+            font-weight: bold; /* Bold title */
+            animation: fadeIn 1s ease; /* Fade in animation */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        }
+
+        .jumbotron p {
+            font-size: 1.5rem; /* Medium size for text */
+            margin: 20px 0; /* Margin for spacing */
+            animation: fadeIn 1s ease 0.5s; /* Delay for fade in */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+        }
+
+        .btn-awesome {
+            background: #007bff; /* Bootstrap primary color */
+            border: none; /* No border */
+            border-radius: 30px; /* Rounded corners */
+            padding: 15px 40px; /* Padding for button */
+            font-size: 1.5rem; /* Larger font size for button */
+            transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
+            color: white; /* White text for button */
+            cursor: pointer; /* Pointer cursor for button */
+        }
+
+        .btn-awesome:hover {
+            transform: scale(1.1); /* Slightly larger on hover */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow effect on hover */
+            background: #0056b3; /* Darker shade on hover */
+        }
+
+        /* Responsive design */
+        @media (max-width: 576px) {
+            .jumbotron h1 {
+                font-size: 2.5rem; /* Adjust size for mobile */
+            }
+
+            .jumbotron p {
+                font-size: 1rem; /* Adjust size for mobile */
+            }
+
+            .btn-awesome {
+                font-size: 1.2rem; /* Adjust button size for mobile */
+            }
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.7); /* Darker footer */
+            position: relative; /* Footer styling */
+            z-index: 1; /* Above other elements */
+            color: #ccc; /* Light text for footer */
+        }
+
+        footer a {
+            color: #007bff; /* Bootstrap primary link color */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s; /* Transition for color change */
+        }
+
+        footer a:hover {
+            color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+
+<body>
+    {% include "quiz/navbar.html" %}
+    <br>
+    <section id="section-jumbotron" class="jumbotron jumbotron-fluid d-flex justify-content-center align-items-center">
+        <div class="container text-center">
+            <h1 class="display-1">Aptitude Test Tool</h1>
+            <p class="display-4">Start Your practice!!</p>
+            <a href="/student/studentsignup" class="btn btn-lg btn-awesome"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
+            <br><br><br>
+        </div>
+    </section>
+    {% include "quiz/footer.html" %}
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+{% extends 'teacher/teacherbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #0d6efd;
+        }
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        .feature-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .page-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<div class="container py-5">
+    <h1 class="page-title">Question Management</h1>
+    
+    <div class="row g-4 justify-content-center">
+        <!-- Add Question Card -->
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-plus-circle feature-icon"></i>
+                    <h3 class="feature-title">Add Question</h3>
+                    <p class="feature-description">Create a new question manually with multiple options</p>
+                    <a href="{% url 'teacher-add-question' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>Add Question
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload CSV Card -->
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-file-csv feature-icon"></i>
+                    <h3 class="feature-title">Upload CSV</h3>
+                    <p class="feature-description">Bulk upload questions using a CSV file</p>
+                    <a href="{% url 'upload-questions-csv' %}" class="btn btn-success mt-3">
+                        <i class="fas fa-upload me-2"></i>Upload CSV
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Questions Card -->
+        <div class="col-md-4">
+            <div class="card feature-card h-100">
+                <div class="card-body text-center p-4">
+                    <i class="fas fa-eye feature-icon"></i>
+                    <h3 class="feature-title">View Questions</h3>
+                    <p class="feature-description">Browse and manage existing questions</p>
+                    <a href="{% url 'teacher-view-question' %}" class="btn btn-info mt-3">
+                        <i class="fas fa-list me-2"></i>View Questions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}

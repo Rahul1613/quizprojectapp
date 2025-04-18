@@ -1,0 +1,137 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <style media="screen">
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            font-family: 'Arial', sans-serif; /* Clean font for readability */
+        }
+
+        .jumbotron {
+            background-color: #007bff; /* Primary color */
+            color: white; /* White text */
+            border-radius: 8px; /* Rounded corners */
+            padding: 30px; /* Padding for spacing */
+            margin-bottom: 30px; /* Spacing below jumbotron */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        }
+
+        h1 {
+            text-align: center; /* Center title */
+            margin-bottom: 20px; /* Margin below title */
+            font-size: 2.5em; /* Increase font size */
+        }
+
+        h3 {
+            color: #17a2b8; /* Info color */
+            margin-top: 20px; /* Margin above question */
+            margin-bottom: 10px; /* Margin below question */
+        }
+
+        h4 {
+            text-align: right; /* Right-align marks */
+            margin: 0; /* Remove default margin */
+            color: #ffc107; /* Warning color for emphasis */
+        }
+
+        .form-check {
+            margin: 15px 0; /* Margin for spacing between options */
+            padding-left: 20px; /* Padding for better alignment */
+        }
+
+        .form-check-input {
+            margin-right: 10px; /* Spacing between radio button and label */
+        }
+
+        .btn-info {
+            background-color: #17a2b8; /* Button background color */
+            color: white; /* Button text color */
+            font-size: 1.2em; /* Larger button text */
+            padding: 10px 20px; /* Padding for button */
+            border-radius: 5px; /* Rounded button */
+            transition: background-color 0.3s ease; /* Transition for hover effect */
+        }
+
+        .btn-info:hover {
+            background-color: #138496; /* Darker button on hover */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 576px) {
+            .jumbotron {
+                padding: 20px; /* Adjust padding for smaller screens */
+            }
+
+            h1 {
+                font-size: 2em; /* Smaller title on small screens */
+            }
+
+            .btn-info {
+                width: 100%; /* Full-width button on small screens */
+            }
+        }
+    </style>
+</head>
+
+<div class="jumbotron my-4">
+    <form class="form" autocomplete="off" onsubmit="return saveAns()" action="/student/calculate-marks" method="POST">
+        {% csrf_token %}
+        <h1>{{ course.course_name }}</h1>
+        {% for q in questions %}
+        <h3>{{ forloop.counter }}. {{ q.question }}</h3>
+        <h4>[Marks {{ q.marks }}]</h4>
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="C24rUotmdHawVQJL3KrqiWxvti8UffOFYUc8TRbZtLt36AVLdP3jbkzUVe3beRAa">
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="option{{ forloop.counter }}1" value="Option1">
+            <label class="form-check-label" for="option{{ forloop.counter }}1">{{ q.option1 }}</label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="option{{ forloop.counter }}2" value="Option2">
+            <label class="form-check-label" for="option{{ forloop.counter }}2">{{ q.option2 }}</label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="option{{ forloop.counter }}3" value="Option3">
+            <label class="form-check-label" for="option{{ forloop.counter }}3">{{ q.option3 }}</label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{ forloop.counter }}" id="option{{ forloop.counter }}4" value="Option4">
+            <label class="form-check-label" for="option{{ forloop.counter }}4">{{ q.option4 }}</label>
+        </div>
+        {% endfor %}
+        <input class="btn btn-info btn-lg" type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    function saveAns() {
+        var ele = document.getElementsByTagName('input');
+        for (var i = 0; i < ele.length; i++) {
+            if (ele[i].type == "radio") {
+                if (ele[i].checked) {
+                    setCookie(ele[i].name, ele[i].value, 3);
+                }
+            }
+        }
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+</script>
+
+<br><br><br><br><br><br>
+{% endblock content %}
