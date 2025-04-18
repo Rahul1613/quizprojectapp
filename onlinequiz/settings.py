@@ -1,7 +1,6 @@
 import os
 import urllib.parse
 from pathlib import Path
-import json
 
 # Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -13,13 +12,10 @@ MEDIA_ROOT = BASE_DIR / 'static'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '@k0#p3kidu)yaaa3u1hplxz)f@^6xiy384*(+n@@s5x#1bx@m5')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['quizapp.onrender.com']  # Set your Render domain or any other trusted domain
+ALLOWED_HOSTS = ['*']  # You can change '*' to your Render domain
 
-# CORS Settings
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    'https://quizapp.onrender.com',  # Replace with your production URL
-]
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # Installed Apps
@@ -58,7 +54,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'onlinequiz.urls'
 
-# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -92,7 +87,7 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Database (SQLite or any other DB)
+# Database (SQLite)
 DB_PATH = os.environ.get('DATABASE_PATH', BASE_DIR / 'db.sqlite3')
 DATABASES = {
     'default': {
@@ -129,7 +124,7 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = '/afterlogin'
 LOGOUT_REDIRECT_URL = '/'
 
-# Email Configuration (Use environment variables for sensitive info)
+# Email Configuration (Use environment variables on Render)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
@@ -138,22 +133,6 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'from@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'xyz')
 EMAIL_RECEIVING_USER = ['to@gmail.com']
 
-# CSRF Settings for Production
-CSRF_COOKIE_SECURE = True  # Set to True in production
+# CSRF Settings
+CSRF_COOKIE_SECURE = False
 CSRF_TRUSTED_ORIGINS = ['https://quizapp.onrender.com']  # Replace with your Render app URL
-
-# Static Files Handling (Whitenoise for production)
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Security (Ensure that production security settings are enabled)
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-# Set the database path dynamically based on the environment
-DB_PATH = os.environ.get('DATABASE_PATH', BASE_DIR / 'db.sqlite3')
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
