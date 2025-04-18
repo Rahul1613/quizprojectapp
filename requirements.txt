@@ -26,7 +26,7 @@ pefile==2023.2.7
 pillow==11.2.1
 pyinstaller==6.13.0
 pyinstaller-hooks-contrib==2025.3
-pypiwin32==223
+pywin32==228
 python-dotenv==1.1.0
 pyttsx3==2.98
 pytz==2025.2
