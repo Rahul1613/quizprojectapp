@@ -1,6 +1,8 @@
-from django.urls import path
-from teacher import views
 from django.contrib.auth.views import LoginView
+from django.urls import path
+
+from teacher import views
+
 from . import exam_slots
 
 urlpatterns = [
