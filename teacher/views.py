@@ -1,7 +1,7 @@
 import csv
 import io
 import sqlite3
-from datetime import date, datetime, timedelta
+from datetime import datetime
 
 from django.conf import settings
 from django.contrib import messages
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import redirect, render
 
 from quiz import forms as QFORM
 from quiz import models as QMODEL
@@ -23,6 +23,7 @@ def teacherclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return render(request, 'teacher/teacherclick.html')
+
 
 def teacher_signup_view(request):
     userForm = forms.TeacherUserForm()
@@ -43,13 +44,15 @@ def teacher_signup_view(request):
         return HttpResponseRedirect('teacherlogin')
     return render(request, 'teacher/teachersignup.html', context=mydict)
 
+
 def is_teacher(user):
     return user.groups.filter(name='TEACHER').exists()
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def teacher_dashboard_view(request):
-    # Get total slots count
+    # Get total slots count from the SQLite database
     conn = sqlite3.connect('exam_slots.db')
     c = conn.cursor()
     c.execute('SELECT COUNT(*) FROM exam_slots')
@@ -64,10 +67,12 @@ def teacher_dashboard_view(request):
     }
     return render(request, 'teacher/teacher_dashboard.html', context=dict)
 
+
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def teacher_exam_view(request):
     return render(request, 'teacher/teacher_exam.html')
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -75,7 +80,7 @@ def teacher_add_exam_view(request):
     courseForm = QFORM.CourseForm()
     if request.method == 'POST':
         courseForm = QFORM.CourseForm(request.POST)
-        if courseForm.is_valid():        
+        if courseForm.is_valid():
             course = courseForm.save(commit=False)
             course.save()
 
@@ -93,11 +98,13 @@ def teacher_add_exam_view(request):
             return HttpResponseRedirect('/teacher/teacher-view-exam')
     return render(request, 'teacher/teacher_add_exam.html', {'courseForm': courseForm})
 
+
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def teacher_view_exam_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'teacher/teacher_view_exam.html', {'courses': courses})
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -107,12 +114,14 @@ def delete_exam_view(request, pk):
         course.delete()
         return HttpResponseRedirect('/teacher/teacher-view-exam')
     except QMODEL.Course.DoesNotExist:
-        return HttpResponseRedirect('/teacher/teacher-view-exam')  
+        return HttpResponseRedirect('/teacher/teacher-view-exam')
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def teacher_question_view(request):
     return render(request, 'teacher/teacher_question.html')
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -124,9 +133,10 @@ def teacher_add_question_view(request):
             question = questionForm.save(commit=False)
             course = QMODEL.Course.objects.get(id=request.POST.get('courseID'))
             question.course = course
-            question.save()       
+            question.save()
         return HttpResponseRedirect('/teacher/teacher-view-question')
     return render(request, 'teacher/teacher_add_question.html', {'questionForm': questionForm})
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -134,11 +144,13 @@ def teacher_view_question_view(request):
     courses = QMODEL.Course.objects.all()
     return render(request, 'teacher/teacher_view_question.html', {'courses': courses})
 
+
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
 def see_question_view(request, pk):
     questions = QMODEL.Question.objects.all().filter(course_id=pk)
     return render(request, 'teacher/see_question.html', {'questions': questions})
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -146,6 +158,7 @@ def remove_question_view(request, pk):
     question = QMODEL.Question.objects.get(id=pk)
     question.delete()
     return HttpResponseRedirect('/teacher/teacher-view-question')
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -155,7 +168,7 @@ def book_exam_slot(request):
         start_time = request.POST.get('start_time')
         end_time = request.POST.get('end_time')
         subject = request.POST.get('subject')
-        
+
         # Check if the slot overlaps with existing ones
         existing_slot = models.ExamSlot.objects.filter(
             teacher=models.Teacher.objects.get(user=request.user),
@@ -167,7 +180,7 @@ def book_exam_slot(request):
         if existing_slot:
             messages.error(request, 'There is already an exam scheduled during this time.')
             return redirect('book-exam-slot')
-        
+
         # Create exam slot
         exam_slot = models.ExamSlot.objects.create(
             teacher=models.Teacher.objects.get(user=request.user),
@@ -176,7 +189,7 @@ def book_exam_slot(request):
             end_time=end_time,
             subject=subject
         )
-        
+
         # Create notifications for all students
         students = Student.objects.all()
         for student in students:
@@ -186,11 +199,12 @@ def book_exam_slot(request):
                 exam_date=date,
                 message=f"New exam '{subject}' has been scheduled for {date} from {start_time} to {end_time}. Please prepare accordingly."
             )
-        
+
         return redirect('teacher-dashboard')
-    
+
     slots = models.ExamSlot.objects.filter(teacher=models.Teacher.objects.get(user=request.user))
     return render(request, 'teacher/exam_slots.html', {'slots': slots})
+
 
 @login_required(login_url='teacherlogin')
 @user_passes_test(is_teacher)
@@ -200,40 +214,41 @@ def upload_questions_csv_view(request):
         if form.is_valid():
             csv_file = request.FILES['csv_file']
             course = form.cleaned_data['course']
-            
+
             # Check if file is CSV and has correct content type
             if not csv_file.name.endswith('.csv') or not csv_file.content_type == 'text/csv':
                 messages.error(request, 'Please upload a valid CSV file')
                 return redirect('upload-questions-csv')
-            
+
             # Read CSV file
             try:
                 csv_data = csv_file.read().decode('utf-8')
                 csv_io = io.StringIO(csv_data)
                 reader = csv.DictReader(csv_io)
-                
+
                 # Validate CSV structure
                 required_fields = ['question', 'option1', 'option2', 'option3', 'option4', 'answer', 'marks']
                 csv_fields = reader.fieldnames
-                
+
                 if not all(field in csv_fields for field in required_fields):
                     messages.error(request, 'CSV file must contain all required fields: ' + ', '.join(required_fields))
                     return redirect('upload-questions-csv')
-                
+
                 questions_to_create = []
                 questions_added = 0
+
                 # Process each row
                 for row in reader:
                     # Validate answer
                     answer = row['answer'].strip()
                     if answer not in ['Option1', 'Option2', 'Option3', 'Option4']:
                         continue
-                    
+
                     try:
                         marks = int(row['marks'])
                     except ValueError:
                         marks = 1  # Default to 1 mark if invalid
-                    
+
                     # Create question instance
                     question = QMODEL.Question(
                         course=course,
@@ -247,13 +262,13 @@ def upload_questions_csv_view(request):
                     )
                     questions_to_create.append(question)
                     questions_added += 1
-                
+
                 # Bulk create questions
                 QMODEL.Question.objects.bulk_create(questions_to_create)
-                
+
                 messages.success(request, f'{questions_added} questions uploaded successfully!')
                 return redirect('teacher-view-question')
-                
+
             except Exception as e:
                 messages.error(request, f'Error processing CSV file: {str(e)}')
                 return redirect('upload-questions-csv')
