@@ -156,6 +156,18 @@ def book_exam_slot(request):
         end_time = request.POST.get('end_time')
         subject = request.POST.get('subject')
         
+        # Check if the slot overlaps with existing ones
+        existing_slot = models.ExamSlot.objects.filter(
+            teacher=models.Teacher.objects.get(user=request.user),
+            date=date,
+            start_time__lte=end_time,
+            end_time__gte=start_time
+        ).exists()
+
+        if existing_slot:
+            messages.error(request, 'There is already an exam scheduled during this time.')
+            return redirect('book-exam-slot')
+        
         # Create exam slot
         exam_slot = models.ExamSlot.objects.create(
             teacher=models.Teacher.objects.get(user=request.user),
@@ -189,9 +201,9 @@ def upload_questions_csv_view(request):
             csv_file = request.FILES['csv_file']
             course = form.cleaned_data['course']
             
-            # Check if file is CSV
-            if not csv_file.name.endswith('.csv'):
-                messages.error(request, 'Please upload a CSV file')
+            # Check if file is CSV and has correct content type
+            if not csv_file.name.endswith('.csv') or not csv_file.content_type == 'text/csv':
+                messages.error(request, 'Please upload a valid CSV file')
                 return redirect('upload-questions-csv')
             
             # Read CSV file
@@ -208,6 +220,7 @@ def upload_questions_csv_view(request):
                     messages.error(request, 'CSV file must contain all required fields: ' + ', '.join(required_fields))
                     return redirect('upload-questions-csv')
                 
+                questions_to_create = []
                 questions_added = 0
                 # Process each row
                 for row in reader:
@@ -221,8 +234,8 @@ def upload_questions_csv_view(request):
                     except ValueError:
                         marks = 1  # Default to 1 mark if invalid
                     
-                    # Create question
-                    QMODEL.Question.objects.create(
+                    # Create question instance
+                    question = QMODEL.Question(
                         course=course,
                         marks=marks,
                         question=row['question'],
@@ -232,7 +245,11 @@ def upload_questions_csv_view(request):
                         option4=row['option4'],
                         answer=answer
                     )
+                    questions_to_create.append(question)
                     questions_added += 1
+                
+                # Bulk create questions
+                QMODEL.Question.objects.bulk_create(questions_to_create)
                 
                 messages.success(request, f'{questions_added} questions uploaded successfully!')
                 return redirect('teacher-view-question')
