@@ -1,14 +1,15 @@
 """
- This module houses the GEOSCoordSeq object, which is used internally
- by GEOSGeometry to house the actual coordinates of the Point,
- LineString, and LinearRing geometries.
+This module houses the GEOSCoordSeq object, which is used internally
+by GEOSGeometry to house the actual coordinates of the Point,
+LineString, and LinearRing geometries.
 """
+
 from ctypes import byref, c_byte, c_double, c_uint
 
 from django.contrib.gis.geos import prototypes as capi
 from django.contrib.gis.geos.base import GEOSBase
 from django.contrib.gis.geos.error import GEOSException
-from django.contrib.gis.geos.libgeos import CS_PTR, geos_version_tuple
+from django.contrib.gis.geos.libgeos import CS_PTR
 from django.contrib.gis.shortcuts import numpy
 
 
@@ -20,7 +21,7 @@ class GEOSCoordSeq(GEOSBase):
     def __init__(self, ptr, z=False):
         "Initialize from a GEOS pointer."
         if not isinstance(ptr, CS_PTR):
-            raise TypeError('Coordinate sequence should initialize with a CS_PTR.')
+            raise TypeError("Coordinate sequence should initialize with a CS_PTR.")
         self._ptr = ptr
         self._z = z
 
@@ -50,7 +51,9 @@ class GEOSCoordSeq(GEOSBase):
         elif numpy and isinstance(value, numpy.ndarray):
             pass
         else:
-            raise TypeError('Must set coordinate with a sequence (list, tuple, or numpy array).')
+            raise TypeError(
+                "Must set coordinate with a sequence (list, tuple, or numpy array)."
+            )
         # Checking the dims of the input
         if self.dims == 3 and self._z:
             n_args = 3
@@ -59,7 +62,7 @@ class GEOSCoordSeq(GEOSBase):
             n_args = 2
             point_setter = self._set_point_2d
         if len(value) != n_args:
-            raise TypeError('Dimension of value does not match.')
+            raise TypeError("Dimension of value does not match.")
         self._checkindex(index)
         point_setter(index, value)
 
@@ -67,7 +70,7 @@ class GEOSCoordSeq(GEOSBase):
     def _checkindex(self, index):
         "Check the given index."
         if not (0 <= index < self.size):
-            raise IndexError('invalid GEOS Geometry index: %s' % index)
+            raise IndexError("invalid GEOS Geometry index: %s" % index)
 
     def _checkdim(self, dim):
         "Check the given dimension."
@@ -180,11 +183,13 @@ class GEOSCoordSeq(GEOSBase):
         # Getting the substitution string depending on whether the coordinates have
         #  a Z dimension.
         if self.hasz:
-            substr = '%s,%s,%s '
+            substr = "%s,%s,%s "
         else:
-            substr = '%s,%s,0 '
-        return '<coordinates>%s</coordinates>' % \
-            ''.join(substr % self[i] for i in range(len(self))).strip()
+            substr = "%s,%s,0 "
+        return (
+            "<coordinates>%s</coordinates>"
+            % "".join(substr % self[i] for i in range(len(self))).strip()
+        )
 
     @property
     def tuple(self):
@@ -198,16 +203,6 @@ class GEOSCoordSeq(GEOSBase):
     @property
     def is_counterclockwise(self):
         """Return whether this coordinate sequence is counterclockwise."""
-        if geos_version_tuple() < (3, 7):
-            # A modified shoelace algorithm to determine polygon orientation.
-            # See https://en.wikipedia.org/wiki/Shoelace_formula.
-            area = 0.0
-            n = len(self)
-            for i in range(n):
-                j = (i + 1) % n
-                area += self[i][0] * self[j][1]
-                area -= self[j][0] * self[i][1]
-            return area > 0.0
         ret = c_byte()
         if not capi.cs_is_ccw(self.ptr, byref(ret)):
             raise GEOSException(

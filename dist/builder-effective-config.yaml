@@ -1,0 +1,44 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.quizapp.desktop
+productName: Quiz App
+win:
+  target:
+    - nsis
+    - portable
+  icon: build/icon.ico
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  publisherName: Quiz App Team
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Quiz App
+  uninstallDisplayName: Quiz App
+  license: LICENSE.txt
+  deleteAppDataOnUninstall: false
+portable:
+  artifactName: ${productName}-Portable-${version}.${ext}
+extraResources:
+  - from: python_dist
+    to: python_dist
+    filter:
+      - '**/*'
+  - from: db
+    to: db
+    filter:
+      - '**/*'
+  - from: static
+    to: static
+    filter:
+      - '**/*'
+  - from: templates
+    to: templates
+    filter:
+      - '**/*'
+fileAssociations: []
+asar: true
+files: []
+electronVersion: 28.1.0

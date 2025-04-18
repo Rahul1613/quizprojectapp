@@ -1,48 +1,62 @@
-from django.db.models import F, OrderBy
+import warnings
+
+from django.core.exceptions import FullResultSet
+from django.db.models.expressions import OrderByList
+from django.utils.deprecation import RemovedInDjango61Warning
 
 
 class OrderableAggMixin:
-
-    def __init__(self, *expressions, ordering=(), **extra):
-        if not isinstance(ordering, (list, tuple)):
-            ordering = [ordering]
-        ordering = ordering or []
-        # Transform minus sign prefixed strings into an OrderBy() expression.
-        ordering = (
-            (OrderBy(F(o[1:]), descending=True) if isinstance(o, str) and o[0] == '-' else o)
-            for o in ordering
-        )
+    # RemovedInDjango61Warning: When the deprecation ends, replace with:
+    # def __init__(self, *expressions, order_by=(), **extra):
+    def __init__(self, *expressions, ordering=(), order_by=(), **extra):
+        # RemovedInDjango61Warning.
+        if ordering:
+            warnings.warn(
+                "The ordering argument is deprecated. Use order_by instead.",
+                category=RemovedInDjango61Warning,
+                stacklevel=2,
+            )
+            if order_by:
+                raise TypeError("Cannot specify both order_by and ordering.")
+            order_by = ordering
+        if not order_by:
+            self.order_by = None
+        elif isinstance(order_by, (list, tuple)):
+            self.order_by = OrderByList(*order_by)
+        else:
+            self.order_by = OrderByList(order_by)
         super().__init__(*expressions, **extra)
-        self.ordering = self._parse_expressions(*ordering)
 
     def resolve_expression(self, *args, **kwargs):
-        self.ordering = [expr.resolve_expression(*args, **kwargs) for expr in self.ordering]
+        if self.order_by is not None:
+            self.order_by = self.order_by.resolve_expression(*args, **kwargs)
         return super().resolve_expression(*args, **kwargs)
 
-    def as_sql(self, compiler, connection):
-        if self.ordering:
-            ordering_params = []
-            ordering_expr_sql = []
-            for expr in self.ordering:
-                expr_sql, expr_params = compiler.compile(expr)
-                ordering_expr_sql.append(expr_sql)
-                ordering_params.extend(expr_params)
-            sql, sql_params = super().as_sql(compiler, connection, ordering=(
-                'ORDER BY ' + ', '.join(ordering_expr_sql)
-            ))
-            return sql, sql_params + ordering_params
-        return super().as_sql(compiler, connection, ordering='')
+    def get_source_expressions(self):
+        return super().get_source_expressions() + [self.order_by]
 
     def set_source_expressions(self, exprs):
-        # Extract the ordering expressions because ORDER BY clause is handled
-        # in a custom way.
-        self.ordering = exprs[self._get_ordering_expressions_index():]
-        return super().set_source_expressions(exprs[:self._get_ordering_expressions_index()])
+        *exprs, self.order_by = exprs
+        return super().set_source_expressions(exprs)
 
-    def get_source_expressions(self):
-        return super().get_source_expressions() + self.ordering
+    def as_sql(self, compiler, connection):
+        *source_exprs, filtering_expr, order_by_expr = self.get_source_expressions()
 
-    def _get_ordering_expressions_index(self):
-        """Return the index at which the ordering expressions start."""
-        source_expressions = self.get_source_expressions()
-        return len(source_expressions) - len(self.ordering)
+        order_by_sql = ""
+        order_by_params = []
+        if order_by_expr is not None:
+            order_by_sql, order_by_params = compiler.compile(order_by_expr)
+
+        filter_params = []
+        if filtering_expr is not None:
+            try:
+                _, filter_params = compiler.compile(filtering_expr)
+            except FullResultSet:
+                pass
+
+        source_params = []
+        for source_expr in source_exprs:
+            source_params += compiler.compile(source_expr)[1]
+
+        sql, _ = super().as_sql(compiler, connection, order_by=order_by_sql)
+        return sql, (*source_params, *order_by_params, *filter_params)
