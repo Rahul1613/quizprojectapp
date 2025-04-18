@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: quizapp
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn quizproject.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: quizproject.settings
+      - key: PYTHON_VERSION
+        value: 3.10
