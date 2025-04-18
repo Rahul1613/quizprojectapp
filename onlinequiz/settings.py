@@ -1,28 +1,20 @@
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+SECRET_KEY = '@k0#p3kidu)yaaa3u1hplxz)f@^6xiy384*(+n@@s5x#1bx@m5'  # ✅ old key kept
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@k0#p3kidu)yaaa3u1hplxz)f@^6xiy384*(+n@@s5x#1bx@m5'
+DEBUG = False  # 🔒 Turned off for production
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-# Update ALLOWED_HOSTS to include your domain on Render
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'quizprojectapp.onrender.com']
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,7 +43,11 @@ MIDDLEWARE = [
 ]
 
 CSRF_COOKIE_SECURE = False
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'https://quizprojectapp.onrender.com',
+]
 
 ROOT_URLCONF = 'onlinequiz.urls'
 
@@ -84,10 +80,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-# Get database path from environment variable or use default
 DB_PATH = os.environ.get('DATABASE_PATH', os.path.join(BASE_DIR, 'db.sqlite3'))
 
 DATABASES = {
@@ -98,9 +90,6 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -117,39 +106,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    STATIC_DIR,
-]
+STATICFILES_DIRS = [STATIC_DIR]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # ✅ for Render deploy
 
 LOGIN_REDIRECT_URL = '/afterlogin'
 LOGOUT_REDIRECT_URL = '/'
 
-# Email Configuration for "Contact Us" feature
+# Email Configuration (Contact Us)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'from@gmail.com'  # Replace with your sender email
-EMAIL_HOST_PASSWORD = 'xyz'  # Replace with your sender email password
-EMAIL_RECEIVING_USER = ['to@gmail.com']  # Replace with the email where you want to receive messages
+EMAIL_HOST_USER = 'from@gmail.com'       # ✅ replace with your real sender Gmail
+EMAIL_HOST_PASSWORD = 'xyz'              # ✅ replace with your real Gmail app password
+EMAIL_RECEIVING_USER = ['to@gmail.com']  # ✅ replace with your receiving email
 
-# Turn ON less secure apps for your sender Gmail account:
-# https://myaccount.google.com/lesssecureapps
