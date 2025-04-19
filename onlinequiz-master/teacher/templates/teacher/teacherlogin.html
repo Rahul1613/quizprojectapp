@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Login</title>
+    <style>
+        body { background: #f0f4fa; font-family: 'Segoe UI', Arial, sans-serif; }
+        .login-container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 40px 30px 32px 30px;
+        }
+        h2 { color: #222; margin-bottom: 32px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #444; }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #d1d9e6;
+            font-size: 16px;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 1.5px solid #007bff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #0056b3; }
+        .links { margin-top: 20px; text-align: center; }
+        .links a { color: #007bff; text-decoration: none; margin: 0 8px; }
+        .links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Teacher Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="links">
+            <a href="/teacher/teachersignup">Sign Up</a> |
+            <a href="/">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
